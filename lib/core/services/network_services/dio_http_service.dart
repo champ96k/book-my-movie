@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:book_my_movie/core/constant/constants.dart';
+import 'package:book_my_movie/core/constant/auth_key.dart';
 import 'package:book_my_movie/core/services/network_services/http_service.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_http2_adapter/dio_http2_adapter.dart';
@@ -130,7 +130,7 @@ class DioHttpService implements HttpService {
   Future<Options> getOptionWithToken({Map<String, String?>? headers}) async {
     final _headers = {
       HttpHeaders.contentTypeHeader: 'application/json; charset=UTF-8',
-      HttpHeaders.authorizationHeader: Constants.authKey,
+      HttpHeaders.authorizationHeader: 'Bearer ${AuthKey.accessToken}',
     };
 
     return Options(headers: _headers);

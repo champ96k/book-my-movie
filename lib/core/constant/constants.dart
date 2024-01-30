@@ -3,5 +3,5 @@ class Constants {
 
   static const somethingWentWrong = "Something Went wrong";
 
-  static const authKey = '';
+  static const baseURL = 'https://api.themoviedb.org/3/movie/';
 }

@@ -1,4 +1,4 @@
-import 'package:book_my_movie/src/pages/home_page.dart';
+import 'package:book_my_movie/features/book_movies_ticket/presentation/pages/home_page.dart';
 import 'package:flutter/material.dart';
 
 import 'screen_names.dart';
