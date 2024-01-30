@@ -16,3 +16,22 @@ extension NumberFormatter on num? {
     }
   }
 }
+
+extension MinutesToTimeString on int? {
+  String toHoursAndMinutesString() {
+    if (this == null || this! < 0) {
+      return '';
+    }
+
+    if (this! < 60) {
+      return '${this!}m';
+    } else {
+      final hours = this! ~/ 60;
+      final minutes = this! % 60;
+      final hoursString = hours > 0 ? '${hours}h ' : '';
+      final minutesString = minutes > 0 ? '${minutes}m' : '';
+
+      return '$hoursString$minutesString';
+    }
+  }
+}

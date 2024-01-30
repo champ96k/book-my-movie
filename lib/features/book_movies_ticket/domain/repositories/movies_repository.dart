@@ -5,6 +5,6 @@ import 'package:book_my_movie/features/book_movies_ticket/data/models/upcoming_m
 
 abstract class MoviesRepository {
   Future<Result<UpcomingMoviesModel>> getUpcomingMovies();
-  Future<Result<MovieDetailsModel>> getMovieDetails(String movieId);
-  Future<Result<MovieImagesModel>> getMovieImages(String movieId);
+  Future<Result<MovieDetailsModel>> getMovieDetails(int movieId);
+  Future<Result<MovieImagesModel>> getMovieImages(int movieId);
 }

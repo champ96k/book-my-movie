@@ -11,7 +11,7 @@ class MoviesDataSources {
 
   final HttpService httpService;
 
-  Future<Result<MovieDetailsModel>> getMovieDetails(String movieId) async {
+  Future<Result<MovieDetailsModel>> getMovieDetails(int movieId) async {
     try {
       final response =
           await httpService.handleGetRequest('${Constants.baseURL}$movieId');
@@ -25,7 +25,7 @@ class MoviesDataSources {
     }
   }
 
-  Future<Result<MovieImagesModel>> getMovieImages(String movieId) async {
+  Future<Result<MovieImagesModel>> getMovieImages(int movieId) async {
     try {
       final response = await httpService
           .handleGetRequest('${Constants.baseURL}$movieId/images');

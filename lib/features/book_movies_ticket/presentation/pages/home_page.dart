@@ -1,4 +1,4 @@
-import 'package:book_my_movie/features/book_movies_ticket/presentation/cubit/book_movies_ticket_cubit.dart';
+import 'package:book_my_movie/features/book_movies_ticket/presentation/movies_cubit/movies_cubit.dart';
 import 'package:book_my_movie/features/book_movies_ticket/presentation/widgets/movies_list_widget.dart';
 import 'package:book_my_movie/src/pages/error_screen.dart';
 import 'package:book_my_movie/src/pages/loading_screen.dart';
@@ -11,21 +11,20 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final totalMoviesCount =
-        context.watch<BookMoviesTicketCubit>().totalMoviesCount;
+    final totalMoviesCount = context.watch<MoviesCubit>().totalMoviesCount;
     return Scaffold(
       appBar: CustomAppBar(
         subTitle: totalMoviesCount != null
             ? "Mumbai | $totalMoviesCount  Movies"
             : '',
       ),
-      body: BlocBuilder<BookMoviesTicketCubit, BookMoviesTicketState>(
+      body: BlocBuilder<MoviesCubit, MoviesState>(
         builder: (context, state) {
-          if (state is BookMoviesLoading) {
+          if (state is MoviesLoadingState) {
             return const LoadingScreen();
-          } else if (state is UpcomingMoviesLoaded) {
-            return MoviesListWidget(list: state.model?.results ?? []);
-          } else if (state is BookMoviesError) {
+          } else if (state is MoviesLoadedState) {
+            return MoviesListWidget(list: state.movies);
+          } else if (state is MoviesErrorState) {
             return ErrorScreen(errorMessage: state.errorMessage);
           } else {
             return const SizedBox();

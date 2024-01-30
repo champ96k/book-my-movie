@@ -11,17 +11,17 @@ class MoviesRepositoryImp extends MoviesRepository {
   final MoviesDataSources remoteDataSource;
 
   @override
-  Future<Result<MovieDetailsModel>> getMovieDetails(String movieId) async {
+  Future<Result<UpcomingMoviesModel>> getUpcomingMovies() {
+    return remoteDataSource.getUpcomingMovies();
+  }
+
+  @override
+  Future<Result<MovieDetailsModel>> getMovieDetails(int movieId) async {
     return remoteDataSource.getMovieDetails(movieId);
   }
 
   @override
-  Future<Result<MovieImagesModel>> getMovieImages(String movieId) async {
+  Future<Result<MovieImagesModel>> getMovieImages(int movieId) async {
     return remoteDataSource.getMovieImages(movieId);
-  }
-
-  @override
-  Future<Result<UpcomingMoviesModel>> getUpcomingMovies() {
-    return remoteDataSource.getUpcomingMovies();
   }
 }

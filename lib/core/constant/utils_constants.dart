@@ -1,3 +1,3 @@
 class UtilsConstants {
-  static const defaultFormat = "dd-MMMM-yyyy";
+  static const defaultFormat = "d MMM y";
 }

@@ -3,12 +3,11 @@ import 'package:book_my_movie/features/book_movies_ticket/domain/repositories/mo
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-part 'book_movies_ticket_state.dart';
+part 'movies_state.dart';
 
-class BookMoviesTicketCubit extends Cubit<BookMoviesTicketState> {
-  BookMoviesTicketCubit({required this.repository})
-      : super(BookMoviesTicketInitial()) {
-    getUpcomingMovie();
+class MoviesCubit extends Cubit<MoviesState> {
+  MoviesCubit({required this.repository}) : super(MoviesInitialState()) {
+    _getUpcomingMovie();
   }
 
   final MoviesRepository repository;
@@ -16,14 +15,14 @@ class BookMoviesTicketCubit extends Cubit<BookMoviesTicketState> {
   int? _totalMoviesCount;
   int? get totalMoviesCount => _totalMoviesCount;
 
-  void getUpcomingMovie() async {
-    emit(BookMoviesLoading());
+  void _getUpcomingMovie() async {
+    emit(MoviesLoadingState());
     final _result = await repository.getUpcomingMovies();
     if (_result.data != null) {
       _totalMoviesCount = _result.data?.results?.length;
-      emit(UpcomingMoviesLoaded(_result.data));
+      emit(MoviesLoadedState(_result.data?.results ?? []));
     } else {
-      emit(BookMoviesError(_result.error?.message ?? ''));
+      emit(MoviesErrorState(_result.error?.message ?? ''));
     }
   }
 }

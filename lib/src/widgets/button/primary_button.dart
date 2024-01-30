@@ -13,6 +13,8 @@ class PrimaryButton extends StatelessWidget {
     this.borderWidth = 0.0,
     this.borderColor = Colors.transparent,
     this.borderRadius = 0.0,
+    this.fontSize,
+    this.margin = const EdgeInsets.all(0.0),
   });
 
   final String text;
@@ -25,6 +27,8 @@ class PrimaryButton extends StatelessWidget {
   final double borderWidth;
   final Color borderColor;
   final double borderRadius;
+  final double? fontSize;
+  final EdgeInsetsGeometry margin;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +36,7 @@ class PrimaryButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
+        margin: margin,
         height: height ?? size.height * 0.06,
         width: width ?? size.width,
         decoration: BoxDecoration(
@@ -48,6 +53,7 @@ class PrimaryButton extends StatelessWidget {
           style: TextStyle(
             color: textColor,
             fontWeight: fontWeight,
+            fontSize: fontSize,
           ),
         ),
       ),

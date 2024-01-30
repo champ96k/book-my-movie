@@ -1,9 +1,9 @@
+import 'package:book_my_movie/core/app_configs/screen_names.dart';
 import 'package:book_my_movie/core/extension/num_extension.dart';
 import 'package:book_my_movie/core/extension/string_extenstion_method.dart';
 import 'package:book_my_movie/features/book_movies_ticket/data/models/upcoming_movies_model/upcoming_movies_model.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:book_my_movie/src/widgets/show_banner_image.dart';
 import 'package:flutter/material.dart';
-import 'package:shimmer/shimmer.dart';
 
 class MovieCard extends StatelessWidget {
   const MovieCard({super.key, required this.resultData});
@@ -19,25 +19,15 @@ class MovieCard extends StatelessWidget {
         children: [
           Expanded(
             flex: 13,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(8.0),
-              child: CachedNetworkImage(
-                imageUrl:
-                    'https://image.tmdb.org/t/p/original${resultData.posterPath ?? ''}',
-                fit: BoxFit.fill,
-                progressIndicatorBuilder: (context, url, downloadProgress) {
-                  return Shimmer.fromColors(
-                    baseColor: Colors.grey,
-                    highlightColor: Colors.white,
-                    child: Container(
-                      color: Colors.grey.withOpacity(0.5),
-                    ),
-                  );
-                },
-                errorWidget: (context, url, error) {
-                  return const Center(child: Icon(Icons.error));
-                },
-              ),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  ScreenNames.movieDetailsScreen,
+                  arguments: {'movieId': resultData.id},
+                );
+              },
+              child: ShowBannerImage(imagePath: resultData.posterPath),
             ),
           ),
           Expanded(
@@ -68,8 +58,7 @@ class MovieCard extends StatelessWidget {
                 ),
                 const Spacer(),
                 Text(
-                  '${resultData.releaseDate}'
-                      .formatDate(defaultFormat: 'd MMM y'),
+                  '${resultData.releaseDate}'.formatDate(),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(

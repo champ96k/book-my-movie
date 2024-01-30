@@ -2,7 +2,7 @@ import 'package:book_my_movie/core/app_configs/route_generator.dart';
 import 'package:book_my_movie/core/app_theme/theme.dart';
 import 'package:book_my_movie/core/services/app_services/app_services_controller.dart';
 import 'package:book_my_movie/features/book_movies_ticket/data/repositories/movies_repository_imp.dart';
-import 'package:book_my_movie/features/book_movies_ticket/presentation/cubit/book_movies_ticket_cubit.dart';
+import 'package:book_my_movie/features/book_movies_ticket/presentation/movies_cubit/movies_cubit.dart';
 import 'package:book_my_movie/features/book_movies_ticket/presentation/pages/home_page.dart';
 import 'package:book_my_movie/src/pages/error_screen.dart';
 import 'package:book_my_movie/src/pages/loading_screen.dart';
@@ -65,8 +65,8 @@ class _MaterialAppHomeState extends State<MaterialAppHome> {
         home: const LoadingScreen(),
       );
     } else {
-      return BlocProvider<BookMoviesTicketCubit>(
-        create: (context) => BookMoviesTicketCubit(
+      return BlocProvider<MoviesCubit>(
+        create: (context) => MoviesCubit(
           repository: GetIt.I<MoviesRepositoryImp>(),
         ),
         child: MaterialApp(
