@@ -11,12 +11,13 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final totalMovieCount =
-        context.watch<BookMoviesTicketCubit>().totalMovieCount;
+    final totalMoviesCount =
+        context.watch<BookMoviesTicketCubit>().totalMoviesCount;
     return Scaffold(
       appBar: CustomAppBar(
-        subTitle:
-            totalMovieCount != null ? "Mumbai | $totalMovieCount  Movies" : '',
+        subTitle: totalMoviesCount != null
+            ? "Mumbai | $totalMoviesCount  Movies"
+            : '',
       ),
       body: BlocBuilder<BookMoviesTicketCubit, BookMoviesTicketState>(
         builder: (context, state) {
