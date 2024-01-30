@@ -21,13 +21,13 @@ class VideoPlayerScreen extends StatelessWidget {
         repository: GetIt.I<MoviesRepositoryImp>(),
         movidId: movidId,
       ),
-      child: const VideoPlayerScreenContent(),
+      child: const _VideoPlayerScreenContent(),
     );
   }
 }
 
-class VideoPlayerScreenContent extends StatelessWidget {
-  const VideoPlayerScreenContent({super.key});
+class _VideoPlayerScreenContent extends StatelessWidget {
+  const _VideoPlayerScreenContent();
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +69,6 @@ class _PrimaryVideoPlayerState extends State<PrimaryVideoPlayer> {
         enableCaption: true,
       ),
     );
-    _controller.toggleFullScreenMode();
     _setLandscapeMode();
     super.initState();
   }
@@ -99,36 +98,34 @@ class _PrimaryVideoPlayerState extends State<PrimaryVideoPlayer> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          YoutubePlayerBuilder(
-            player: YoutubePlayer(
-              controller: _controller,
-              aspectRatio: 16 / 9,
-              controlsTimeOut: const Duration(seconds: 5),
-              onEnded: (_) => Navigator.pop(context),
-            ),
-            builder: (context, player) {
-              return Center(child: player);
-            },
+    return Stack(
+      children: [
+        YoutubePlayerBuilder(
+          player: YoutubePlayer(
+            controller: _controller,
+            aspectRatio: 16 / 9,
+            controlsTimeOut: const Duration(seconds: 5),
+            onEnded: (_) => Navigator.pop(context),
           ),
-          Align(
-            alignment: Alignment.topRight,
-            child: Padding(
-              padding: const EdgeInsets.all(26.0),
-              child: IconButton(
-                icon: const Icon(
-                  Icons.close,
-                  color: ColorName.primaryColor,
-                  size: 30,
-                ),
-                onPressed: () => Navigator.pop(context),
+          builder: (context, player) {
+            return Center(child: player);
+          },
+        ),
+        Align(
+          alignment: Alignment.topRight,
+          child: Padding(
+            padding: const EdgeInsets.all(26.0),
+            child: IconButton(
+              icon: const Icon(
+                Icons.close,
+                color: ColorName.primaryColor,
+                size: 30,
               ),
+              onPressed: () => Navigator.pop(context),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
