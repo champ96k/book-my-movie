@@ -2,6 +2,7 @@ import 'package:book_my_movie/core/utils/result.dart';
 import 'package:book_my_movie/features/book_movies_ticket/data/datasources/movies_data_sources.dart';
 import 'package:book_my_movie/features/book_movies_ticket/data/models/movie_details_model/movie_details_model.dart';
 import 'package:book_my_movie/features/book_movies_ticket/data/models/movie_images_model/movie_images_model.dart';
+import 'package:book_my_movie/features/book_movies_ticket/data/models/movie_videos_model/movie_videos_model.dart';
 import 'package:book_my_movie/features/book_movies_ticket/data/models/upcoming_movies_model/upcoming_movies_model.dart';
 import 'package:book_my_movie/features/book_movies_ticket/domain/repositories/movies_repository.dart';
 
@@ -23,5 +24,10 @@ class MoviesRepositoryImp extends MoviesRepository {
   @override
   Future<Result<MovieImagesModel>> getMovieImages(int movieId) async {
     return remoteDataSource.getMovieImages(movieId);
+  }
+
+  @override
+  Future<Result<MovieVideosModel>> getMovieVideoURL(int movieId) {
+    return remoteDataSource.getMovieVideoURL(movieId);
   }
 }

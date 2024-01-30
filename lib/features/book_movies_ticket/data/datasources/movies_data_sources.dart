@@ -4,6 +4,7 @@ import 'package:book_my_movie/core/services/network_services/http_service.dart';
 import 'package:book_my_movie/core/utils/result.dart';
 import 'package:book_my_movie/features/book_movies_ticket/data/models/movie_details_model/movie_details_model.dart';
 import 'package:book_my_movie/features/book_movies_ticket/data/models/movie_images_model/movie_images_model.dart';
+import 'package:book_my_movie/features/book_movies_ticket/data/models/movie_videos_model/movie_videos_model.dart';
 import 'package:book_my_movie/features/book_movies_ticket/data/models/upcoming_movies_model/upcoming_movies_model.dart';
 
 class MoviesDataSources {
@@ -44,6 +45,21 @@ class MoviesDataSources {
       final response =
           await httpService.handleGetRequest('${Constants.baseURL}upcoming');
       final upcomingMovie = UpcomingMoviesModel.fromJson(response.data);
+      return Result(data: upcomingMovie);
+    } catch (e) {
+      return Result(
+        error: CustomError(
+          message: 'Error fetching upcoming movies: $e',
+        ),
+      );
+    }
+  }
+
+  Future<Result<MovieVideosModel>> getMovieVideoURL(int movieId) async {
+    try {
+      final response = await httpService
+          .handleGetRequest('${Constants.baseURL}$movieId/videos');
+      final upcomingMovie = MovieVideosModel.fromJson(response.data);
       return Result(data: upcomingMovie);
     } catch (e) {
       return Result(

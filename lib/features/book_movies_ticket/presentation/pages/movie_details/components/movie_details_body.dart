@@ -1,3 +1,4 @@
+import 'package:book_my_movie/core/app_configs/screen_names.dart';
 import 'package:book_my_movie/core/extension/num_extension.dart';
 import 'package:book_my_movie/core/extension/string_extenstion_method.dart';
 import 'package:book_my_movie/features/book_movies_ticket/data/models/movie_details_model/movie_details_model.dart';
@@ -36,28 +37,36 @@ class MovieDetailsBody extends StatelessWidget {
                   ),
                   Align(
                     alignment: Alignment.center,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8.0,
-                        vertical: 4.0,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.black38,
-                        borderRadius: BorderRadius.circular(16.0),
-                      ),
-                      child: const Wrap(
-                        alignment: WrapAlignment.center,
-                        crossAxisAlignment: WrapCrossAlignment.center,
-                        children: [
-                          Icon(Icons.play_arrow, color: Colors.white),
-                          Text(
-                            "Trailers",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 12.0,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pushNamed(
+                          ScreenNames.videoPlayerScreen,
+                          arguments: {'movidId': model?.id},
+                        );
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8.0,
+                          vertical: 4.0,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.black38,
+                          borderRadius: BorderRadius.circular(16.0),
+                        ),
+                        child: const Wrap(
+                          alignment: WrapAlignment.center,
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          children: [
+                            Icon(Icons.play_arrow, color: Colors.white),
+                            Text(
+                              "Trailers",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12.0,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
