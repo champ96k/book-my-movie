@@ -2,6 +2,7 @@ import 'package:book_my_movie/features/book_movies_ticket/presentation/cubit/boo
 import 'package:book_my_movie/features/book_movies_ticket/presentation/widgets/movies_list_widget.dart';
 import 'package:book_my_movie/src/pages/error_screen.dart';
 import 'package:book_my_movie/src/pages/loading_screen.dart';
+import 'package:book_my_movie/src/widgets/app_bar/custom_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,8 +11,13 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final totalMovieCount =
+        context.watch<BookMoviesTicketCubit>().totalMovieCount;
     return Scaffold(
-      appBar: AppBar(title: const Text("Home")),
+      appBar: CustomAppBar(
+        subTitle:
+            totalMovieCount != null ? "Mumbai | $totalMovieCount  Movies" : '',
+      ),
       body: BlocBuilder<BookMoviesTicketCubit, BookMoviesTicketState>(
         builder: (context, state) {
           if (state is BookMoviesLoading) {

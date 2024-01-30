@@ -2,6 +2,8 @@ import 'package:book_my_movie/core/constant/constants.dart';
 import 'package:book_my_movie/core/error/custom_error.dart';
 import 'package:book_my_movie/core/services/network_services/http_service.dart';
 import 'package:book_my_movie/core/utils/result.dart';
+import 'package:book_my_movie/features/book_movies_ticket/data/models/movie_details_model/movie_details_model.dart';
+import 'package:book_my_movie/features/book_movies_ticket/data/models/movie_images_model/movie_images_model.dart';
 import 'package:book_my_movie/features/book_movies_ticket/data/models/upcoming_movies_model/upcoming_movies_model.dart';
 
 class MoviesRemoteDataSource {
@@ -9,11 +11,11 @@ class MoviesRemoteDataSource {
 
   final HttpService httpService;
 
-  Future<dynamic> getMovieDetails(String movieId) async {
+  Future<Result<MovieDetailsModel>> getMovieDetails(String movieId) async {
     try {
       final response =
           await httpService.handleGetRequest('${Constants.baseURL}$movieId');
-      return Result(data: response.data);
+      return Result(data: MovieDetailsModel.fromJson(response.data));
     } catch (e) {
       return Result(
         error: CustomError(
@@ -23,11 +25,11 @@ class MoviesRemoteDataSource {
     }
   }
 
-  Future<dynamic> getMovieImages(String movieId) async {
+  Future<Result<MovieImagesModel>> getMovieImages(String movieId) async {
     try {
       final response = await httpService
           .handleGetRequest('${Constants.baseURL}$movieId/images');
-      return Result(data: response.data);
+      return Result(data: MovieImagesModel.fromJson(response.data));
     } catch (e) {
       return Result(
         error: CustomError(

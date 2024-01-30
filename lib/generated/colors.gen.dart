@@ -28,8 +28,8 @@ class ColorName {
   /// Color: #85BBF6
   static const Color lightPrimary = Color(0xFF85BBF6);
 
-  /// Color: #4999F1
-  static const Color primaryColor = Color(0xFF4999F1);
+  /// Color: #30304B
+  static const Color primaryColor = Color(0xFF30304B);
 
   /// Color: #EDF5FE
   static const Color secondaryColor = Color(0xFFEDF5FE);

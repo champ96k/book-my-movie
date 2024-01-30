@@ -13,12 +13,15 @@ class BookMoviesTicketCubit extends Cubit<BookMoviesTicketState> {
 
   final MoviesRepository repository;
 
+  int? _totalMovieCount;
+  int? get totalMovieCount => _totalMovieCount;
+
   void getUpcomingMovie() async {
     emit(BookMoviesLoading());
     final _result = await repository.getUpcomingMovies();
     if (_result.data != null) {
-      final model = _result.data;
-      emit(UpcomingMoviesLoaded(model));
+      _totalMovieCount = _result.data?.results?.length;
+      emit(UpcomingMoviesLoaded(_result.data));
     } else {
       emit(BookMoviesError(_result.error?.message ?? ''));
     }
