@@ -1,3 +1,4 @@
+import 'package:book_my_movie/core/app_configs/screen_names.dart';
 import 'package:book_my_movie/features/ticket_booking/data/repositories/cinemas_repository_imp.dart';
 import 'package:book_my_movie/features/ticket_booking/presentation/cubit/cinema_listing_cubit.dart';
 import 'package:book_my_movie/features/ticket_booking/presentation/widgets/cinema_list_item.dart';
@@ -45,13 +46,18 @@ class CinemaListingWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String _seletedDate = '';
     return Scaffold(
       appBar: CustomAppBar(title: movieName),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const HorizontalCalendar(),
+          HorizontalCalendar(
+            onDateUpdate: (p0) {
+              _seletedDate = p0;
+            },
+          ),
           const SizedBox(height: 4.0),
           Padding(
             padding: const EdgeInsets.all(12.0),
@@ -74,7 +80,21 @@ class CinemaListingWidget extends StatelessWidget {
                   itemCount: state.cinemas.length,
                   padding: const EdgeInsets.all(0.0),
                   itemBuilder: (context, i) {
-                    return CinemaListItem(cinema: state.cinemas[i]);
+                    return CinemaListItem(
+                      onTap: (show) {
+                        Navigator.of(context).pushNamed(
+                          ScreenNames.seatSelectionScreen,
+                          arguments: {
+                            'movieName': movieName,
+                            'cinema': state.cinemas[i],
+                            'date': _seletedDate,
+                            'languages': languages,
+                            'selectedTime': show?.time ?? '',
+                          },
+                        );
+                      },
+                      cinema: state.cinemas[i],
+                    );
                   },
                 );
               } else if (state is CinemaListingErrorState) {

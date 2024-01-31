@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class HorizontalCalendar extends StatefulWidget {
-  const HorizontalCalendar({super.key});
+  const HorizontalCalendar({super.key, required this.onDateUpdate});
+
+  final Function(String) onDateUpdate;
 
   @override
   State<HorizontalCalendar> createState() => _HorizontalCalendarState();
@@ -13,15 +15,18 @@ class _HorizontalCalendarState extends State<HorizontalCalendar> {
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      DateTime currentDate = DateTime.now().add(const Duration(days: 0));
-      String formattedDate = DateFormat('d').format(currentDate);
-      if (mounted) {
-        setState(() {
-          _selectedIndex = formattedDate;
-        });
-      }
-    });
+    DateTime currentDate = DateTime.now().add(const Duration(days: 0));
+    String formattedDay = DateFormat('EEE').format(currentDate);
+    String formattedDate = DateFormat('d').format(currentDate);
+    String formattedMonth = DateFormat('MMM').format(currentDate);
+    final _date = '$formattedDay $formattedDate $formattedMonth';
+    widget.onDateUpdate(_date);
+    if (mounted) {
+      setState(() {
+        _selectedIndex = formattedDate;
+      });
+    }
+
     super.initState();
   }
 
@@ -40,6 +45,8 @@ class _HorizontalCalendarState extends State<HorizontalCalendar> {
 
           return GestureDetector(
             onTap: () {
+              final _date = '$formattedDay $formattedDate $formattedMonth';
+              widget.onDateUpdate(_date);
               setState(() => _selectedIndex = formattedDate);
             },
             child: Container(

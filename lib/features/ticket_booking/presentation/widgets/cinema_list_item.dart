@@ -1,11 +1,16 @@
-import 'package:book_my_movie/core/app_configs/screen_names.dart';
 import 'package:book_my_movie/features/ticket_booking/data/models/cinema_list_model.dart';
 import 'package:flutter/material.dart';
 
 class CinemaListItem extends StatelessWidget {
-  const CinemaListItem({super.key, required this.cinema});
+  const CinemaListItem({
+    super.key,
+    required this.cinema,
+    required this.onTap,
+  });
 
   final Cinema cinema;
+
+  final Function(ShowTime? showTime) onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -68,11 +73,7 @@ class CinemaListItem extends StatelessWidget {
                   return const SizedBox();
                 }
                 return GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).pushNamed(
-                      ScreenNames.seatSelectionScreen,
-                    );
-                  },
+                  onTap: () => onTap(_show),
                   child: Container(
                     padding: const EdgeInsets.all(16.0),
                     margin: const EdgeInsets.all(8.0),

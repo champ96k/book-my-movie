@@ -7,11 +7,12 @@ class TicketBookingInitial extends TicketBookingState {
   List<Object?> get props => ['TicketBookingInitial'];
 }
 
-class TicketLocationSelected extends TicketBookingState {
-  TicketLocationSelected(this.location);
+class SeatSelectionState extends TicketBookingState {
+  SeatSelectionState(this.seatStatusList, {this.dateTime});
 
-  final String location;
+  final List<List<SeatStatus>> seatStatusList;
+  final String? dateTime;
 
   @override
-  List<Object?> get props => [location];
+  List<Object?> get props => [seatStatusList, dateTime];
 }
