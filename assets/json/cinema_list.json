@@ -1,0 +1,328 @@
+{
+    "cinemas": [
+        {
+            "name": "PVR Cinemas - Lower Parel Mumbai, MH",
+            "address": "Senapati Bapat Marg, Lower Parel",
+            "location": "Mumbai, Maharashtra",
+            "non_cancellable": true,
+            "show_times": [
+                {
+                    "time": "12:00 PM",
+                    "sound": "Dolby 7.1"
+                },
+                {
+                    "time": "3:30 PM",
+                    "sound": "IMAX"
+                },
+                {
+                    "time": "6:45 PM",
+                    "sound": "Standard"
+                },
+                {
+                    "time": "1:45 AM",
+                    "sound": "Dolby 7.1"
+                },
+                {
+                    "time": "4:30 AM",
+                    "sound": "IMAX"
+                },
+                {
+                    "time": "9:05 AM",
+                    "sound": "Standard"
+                }
+            ]
+        },
+        {
+            "name": "INOX - R City Mall South Mumbai",
+            "address": "LBS Road, Ghatkopar West",
+            "location": "Mumbai, Maharashtra",
+            "non_cancellable": false,
+            "show_times": [
+                {
+                    "time": "1:15 PM",
+                    "sound": "Dolby Atmos"
+                },
+                {
+                    "time": "4:45 PM",
+                    "sound": "Standard"
+                },
+                {
+                    "time": "8:00 PM",
+                    "sound": "IMAX"
+                },
+                {
+                    "time": "12:00 PM",
+                    "sound": "IMAX"
+                }
+            ]
+        },
+        {
+            "name": "Carnival Cinemas - Andheri West",
+            "address": "Veera Desai Road, Andheri West",
+            "location": "Mumbai, Maharashtra",
+            "non_cancellable": true,
+            "show_times": [
+                {
+                    "time": "11:30 AM",
+                    "sound": "Dolby 7.1"
+                },
+                {
+                    "time": "2:45 PM",
+                    "sound": "Dolby Atmos"
+                },
+                {
+                    "time": "7:15 PM",
+                    "sound": "IMAX"
+                }
+            ]
+        },
+        {
+            "name": "Regal Cinema Shahid Bhagat Singh Road, Colaba",
+            "address": "Shahid Bhagat Singh Road, Colaba",
+            "location": "Mumbai, Maharashtra",
+            "non_cancellable": false,
+            "show_times": [
+                {
+                    "time": "10:00 AM",
+                    "sound": "Dolby Atmos"
+                },
+                {
+                    "time": "1:30 PM",
+                    "sound": "Standard"
+                },
+                {
+                    "time": "5:45 PM",
+                    "sound": "IMAX"
+                },
+                {
+                    "time": "12:45 PM",
+                    "sound": "IMAX"
+                }
+            ]
+        },
+        {
+            "name": "Cinepolis - Thane Eastern Express Highway",
+            "address": "Korum Mall, Eastern Express Highway",
+            "location": "Mumbai, Maharashtra",
+            "non_cancellable": true,
+            "show_times": [
+                {
+                    "time": "12:45 PM",
+                    "sound": "Dolby 7.1"
+                },
+                {
+                    "time": "4:00 PM",
+                    "sound": "Standard"
+                },
+                {
+                    "time": "8:30 PM",
+                    "sound": "IMAX"
+                },
+                {
+                    "time": "7:20 AM",
+                    "sound": "IMAX"
+                }
+            ]
+        },
+        {
+            "name": "Cinemax - Link Road, Malad West",
+            "address": "Infinity Mall, Link Road, Malad West",
+            "location": "Mumbai, Maharashtra",
+            "non_cancellable": true,
+            "show_times": [
+                {
+                    "time": "11:00 AM",
+                    "sound": "Dolby 7.1"
+                },
+                {
+                    "time": "2:15 PM",
+                    "sound": "Dolby Atmos"
+                },
+                {
+                    "time": "6:30 PM",
+                    "sound": "Standard"
+                }
+            ]
+        },
+        {
+            "name": "Mumbai Metro Multiplex Borivali East",
+            "address": "Western Express Highway, Borivali East",
+            "location": "Mumbai, Maharashtra",
+            "non_cancellable": false,
+            "show_times": [
+                {
+                    "time": "1:30 PM",
+                    "sound": "Dolby 7.1"
+                },
+                {
+                    "time": "4:45 PM",
+                    "sound": "IMAX"
+                },
+                {
+                    "time": "8:15 PM",
+                    "sound": "Standard"
+                }
+            ]
+        },
+        {
+            "name": "Miraj Cinemas - Andheri West",
+            "address": "D.N. Nagar, Andheri West",
+            "location": "Mumbai, Maharashtra",
+            "non_cancellable": true,
+            "show_times": [
+                {
+                    "time": "12:15 PM",
+                    "sound": "Dolby Atmos"
+                },
+                {
+                    "time": "3:45 PM",
+                    "sound": "IMAX"
+                },
+                {
+                    "time": "7:00 PM",
+                    "sound": "Standard"
+                }
+            ]
+        },
+        {
+            "name": "City Pride - Paud Road, Kothrud",
+            "address": "Rambaug Colony, Paud Road, Kothrud",
+            "location": "Mumbai, Maharashtra",
+            "non_cancellable": false,
+            "show_times": [
+                {
+                    "time": "10:30 AM",
+                    "sound": "Dolby 7.1"
+                },
+                {
+                    "time": "2:00 PM",
+                    "sound": "Dolby Atmos"
+                },
+                {
+                    "time": "5:30 PM",
+                    "sound": "Standard"
+                }
+            ]
+        },
+        {
+            "name": "Mukta A2 Cinemas - Vashi Sector 30A",
+            "address": "Plot No. 80, Sector 30A, Vashi",
+            "location": "Mumbai, Maharashtra",
+            "non_cancellable": true,
+            "show_times": [
+                {
+                    "time": "11:45 AM",
+                    "sound": "Dolby 7.1"
+                },
+                {
+                    "time": "3:00 PM",
+                    "sound": "IMAX"
+                },
+                {
+                    "time": "6:15 PM",
+                    "sound": "Standard"
+                }
+            ]
+        },
+        {
+            "name": "Fun Cinemas - Marol Naka, Andheri East",
+            "address": "Andheri Kurla Road, Marol Naka, Andheri East",
+            "location": "Mumbai, Maharashtra",
+            "non_cancellable": false,
+            "show_times": [
+                {
+                    "time": "1:00 PM",
+                    "sound": "Dolby Atmos"
+                },
+                {
+                    "time": "4:30 PM",
+                    "sound": "Standard"
+                },
+                {
+                    "time": "8:45 PM",
+                    "sound": "IMAX"
+                }
+            ]
+        },
+        {
+            "name": "Miraj Cinemas - Link Road, Malad West",
+            "address": "Link Road, Malad West",
+            "location": "Mumbai, Maharashtra",
+            "non_cancellable": true,
+            "show_times": [
+                {
+                    "time": "12:30 PM",
+                    "sound": "Dolby 7.1"
+                },
+                {
+                    "time": "3:45 PM",
+                    "sound": "Dolby Atmos"
+                },
+                {
+                    "time": "7:30 PM",
+                    "sound": "IMAX"
+                }
+            ]
+        },
+        {
+            "name": "Cinepolis - Mulund",
+            "address": "Nirmal Lifestyle Mall, LBS Marg, Mulund West",
+            "location": "Mumbai, Maharashtra",
+            "non_cancellable": false,
+            "show_times": [
+                {
+                    "time": "10:45 AM",
+                    "sound": "Dolby Atmos"
+                },
+                {
+                    "time": "2:15 PM",
+                    "sound": "IMAX"
+                },
+                {
+                    "time": "6:30 PM",
+                    "sound": "Standard"
+                }
+            ]
+        },
+        {
+            "name": "INOX - Nariman Point",
+            "address": "CR2 Mall, Nariman Point",
+            "location": "Mumbai, Maharashtra",
+            "non_cancellable": true,
+            "show_times": [
+                {
+                    "time": "11:00 AM",
+                    "sound": "Dolby 7.1"
+                },
+                {
+                    "time": "3:30 PM",
+                    "sound": "Standard"
+                },
+                {
+                    "time": "7:45 PM",
+                    "sound": "IMAX"
+                }
+            ]
+        },
+        {
+            "name": "Carnival Cinemas - Powai",
+            "address": "Hiranandani Gardens, Powai",
+            "location": "Mumbai, Maharashtra",
+            "non_cancellable": false,
+            "show_times": [
+                {
+                    "time": "1:15 PM",
+                    "sound": "Dolby Atmos"
+                },
+                {
+                    "time": "4:45 PM",
+                    "sound": "Dolby 7.1"
+                },
+                {
+                    "time": "8:00 PM",
+                    "sound": "IMAX"
+                }
+            ]
+        }
+    ]
+}

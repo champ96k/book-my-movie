@@ -1,11 +1,8 @@
-import 'dart:io';
-
 import 'package:book_my_movie/features/book_movies_ticket/data/repositories/movies_repository_imp.dart';
 import 'package:book_my_movie/features/book_movies_ticket/presentation/movie_details_cubit/movie_details_cubit.dart';
 import 'package:book_my_movie/features/book_movies_ticket/presentation/pages/movie_details/components/movie_details_body.dart';
 import 'package:book_my_movie/src/pages/error_screen.dart';
 import 'package:book_my_movie/src/pages/loading_screen.dart';
-import 'package:book_my_movie/src/widgets/button/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -45,18 +42,6 @@ class MovieDetailsScreenContent extends StatelessWidget {
               return const SizedBox();
             }
           },
-        ),
-      ),
-      bottomNavigationBar: PrimaryButton(
-        borderRadius: 6.0,
-        color: Colors.red,
-        fontSize: 16.0,
-        fontWeight: FontWeight.w600,
-        text: "Book tickets",
-        onTap: () {},
-        margin: EdgeInsets.symmetric(
-          horizontal: 16.0,
-          vertical: Platform.isIOS ? 26.0 : 16.0,
         ),
       ),
     );

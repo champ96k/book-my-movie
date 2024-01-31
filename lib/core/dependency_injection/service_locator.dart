@@ -5,6 +5,8 @@ import 'package:book_my_movie/core/services/shared_preferences/my_shared_prefere
 import 'package:book_my_movie/core/services/shared_preferences/my_shared_preferences_imp.dart';
 import 'package:book_my_movie/features/book_movies_ticket/data/datasources/movies_data_sources.dart';
 import 'package:book_my_movie/features/book_movies_ticket/data/repositories/movies_repository_imp.dart';
+import 'package:book_my_movie/features/ticket_booking/data/datasources/local_sources/cinema_local_sources.dart';
+import 'package:book_my_movie/features/ticket_booking/data/repositories/cinemas_repository_imp.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logging/logging.dart';
 
@@ -30,6 +32,16 @@ void serviceLoactor() {
   getIt.registerFactory<MoviesRepositoryImp>(
     () => MoviesRepositoryImp(
       remoteDataSource: getIt.get<MoviesDataSources>(),
+    ),
+  );
+
+  getIt.registerFactory<CinemasLocalDataSources>(
+    () => CinemasLocalDataSources(),
+  );
+
+  getIt.registerFactory<CinemasRepositoryImp>(
+    () => CinemasRepositoryImp(
+      dataSources: getIt.get<CinemasLocalDataSources>(),
     ),
   );
 }

@@ -31,7 +31,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       elevation: elevation,
       surfaceTintColor: surfaceTintColor,
-      automaticallyImplyLeading: false,
       backgroundColor: backgroundColor,
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,13 +42,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               fontWeight: FontWeight.w600,
             ),
           ),
-          Text(
-            subTitle,
-            style: const TextStyle(
-              color: Colors.white38,
-              fontSize: 14.0,
+          if (subTitle.isNotEmpty)
+            Text(
+              subTitle,
+              style: const TextStyle(
+                color: Colors.white38,
+                fontSize: 14.0,
+              ),
             ),
-          ),
         ],
       ),
       centerTitle: centerTitle,
