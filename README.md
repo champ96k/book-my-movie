@@ -1,6 +1,9 @@
-# Clean Architecture with Flutter BLOC/Cubit
+## Book My Movie Flutter Project 
 
-The goal of this library is to make it easy to separate presentation from business logic, facilitating testability and reusability. 
+
+## Overview
+
+**book_my_movie** is a Flutter project designed to provide a seamless movie browsing and booking experience. The project follows the Clean Architecture pattern and utilizes Flutter Cubit for state management. Dependency injection is handled using GetIt. Below is the documentation outlining the project structure, dependencies, and other important details.
 
 ## Documentation
 
@@ -32,34 +35,71 @@ The goal of this library is to make it easy to separate presentation from busine
 
 ## Cubit
 
+The goal of this library is to make it easy to separate presentation from business logic, facilitating testability and reusability. 
+
 <p align="center">
   <img src="https://raw.githubusercontent.com/felangel/bloc/master/docs/assets/cubit_architecture_full.png" />
 </p>
 
 - A Cubit is class which extends BlocBase and can be extended to manage any type of state. Cubit requires an initial state which will be the state before emit has been called. The current state of a cubit can be accessed via the state getter and the state of the cubit can be updated by calling emit with a new state.
 
-## Bloc
-
-<p align="center">
-  <img src="https://bloclibrary.dev/assets/bloc_architecture_full.png" />
-</p>
-
-- A Bloc is a more advanced class which relies on events to trigger state changes rather than functions. Bloc also extends BlocBase which means it has a similar public API as Cubit. However, rather than calling a function on a Bloc and directly emitting a new state, Blocs receive events and convert the incoming events into outgoing states.
-
-## Explanation & Project Organization
-
-The project is dived into two parts
-
-- `core` - Contain all core file including bussiness login, bloc,cubit DI,etc
-- `src` - Evrything related to UI
-- `feature` - App feature
 
 ## Dependency Injection
 
 - In Flutter, the default way to provide object/services to widgets is through InheritedWidgets. If you want a widget or it’s model to have access to a service, the widget has to be a child of the inherited widget. This causes unnecessary nesting.
 - That’s where [get it](https://pub.dev/packages/get_it) comes in. An IoC that allows you to register your class types and request it from anywhere you have access to the container..
 
-_You don’t need to wrap any widgets to inherit anything, or need the context anywhere. All you do is import the service_locator file and use the locator to resolve your type. This means that in places without the context you’ll still be able to inject the correct services and values, even if the app’s UI structure changes._
+_You don’t need to wrap any widgets to inherit anything, or need the context anywhere. All you do is import the service_locator file and use the locator to resolve your type. This means that in places without the context you’ll still be able to inject the correct services and values, even if the app’s UI structure changes.
+
+
+## Project Structure
+
+```
+lib/
+|-- core/
+|   |-- domain/
+|   |-- data/
+|   |-- presentation/
+|
+|-- features/
+|   |-- home/
+|   |   |-- presentation/
+|   |   |-- domain/
+|   |   |-- data/
+|   |
+|   |-- movie_details/
+|   |   |-- presentation/
+|   |   |-- domain/
+|   |   |-- data/
+|
+|-- common/
+|   |-- constants/
+|   |-- widgets/
+|
+|-- injection/
+|-- main.dart
+```
+
+- **core:** Contains the core logic of the application, following Clean Architecture principles.
+
+  - **domain:** Defines entities, use cases, and repositories.
+  - **data:** Implements data sources, repositories, and mappers.
+  - **presentation:** Manages the UI, presentation logic, and state using Cubit.
+
+- **features:** Contains feature-specific modules.
+
+  - **home:** Module for displaying the home screen with movie listings.
+  - **movie_details:** Module for displaying detailed information about a selected movie.
+
+- **common:** Contains shared components and constants used across the application.
+
+  - **constants:** Holds constant values used throughout the app.
+  - **widgets:** Custom widgets used in different parts of the application.
+
+- **injection:** Handles dependency injection using GetIt.
+
+- **main.dart:** Entry point of the application.
+
 
 ## Code Style
 
@@ -96,7 +136,6 @@ $ git remote set-head origin -a
 
 
 ## Screenshot
-
 
 
 <div align="center">
