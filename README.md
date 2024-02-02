@@ -1,11 +1,6 @@
-# Flutter BLOC/Cubit Architecture
-
-<p align="center">
-  <img src="https://miro.medium.com/max/2000/1*ZoFSEJPewsoFaDwMZylrCQ.png" />
-</p>
+# Clean Architecture with Flutter BLOC/Cubit
 
 The goal of this library is to make it easy to separate presentation from business logic, facilitating testability and reusability. 
-
 
 ## Documentation
 
@@ -102,4 +97,26 @@ $ git remote set-head origin -a
 
 ## Screenshot
 
-![](https://i.ibb.co/jZCPFb4/Screenshot-2021-07-11-at-9-34-01-PM.png) 
+
+<div align="center">
+  <img src="https://i.postimg.cc/SQLRGtM0/Screenshot-2024-02-02-at-11-50-41-AM.png" width="250" hspace="20">
+  <img src="https://i.postimg.cc/Jz0hMrdm/Screenshot-2024-02-02-at-11-50-46-AM.png" width="250" hspace="20">
+  <img src="https://i.postimg.cc/D072Dnb9/Screenshot-2024-02-02-at-11-50-51-AM.png" width="250" hspace="20">
+</div>
+
+<br>
+<br>
+
+<div align="center">
+  <img src="https://i.postimg.cc/W4Jbq9vH/Screenshot-2024-02-02-at-11-50-55-AM.png" width="250" hspace="20">
+  <img src="https://i.postimg.cc/HkNkLqfM/Screenshot-2024-02-02-at-11-50-58-AM.png" width="250" hspace="20">
+  <img src="https://i.postimg.cc/4d6fBmnv/Screenshot-2024-02-02-at-11-51-04-AM.png" width="250" hspace="20">
+</div>
+
+<br>
+<br>
+
+<div align="center">
+  <img src="https://i.postimg.cc/mDfZYQZ2/Screenshot-2024-02-02-at-11-51-16-AM.png" width="250" hspace="20">
+  <img src="https://i.postimg.cc/TYCPzL0C/Screenshot-2024-02-02-at-11-51-19-AM.png" width="250" hspace="20">
+</div>
