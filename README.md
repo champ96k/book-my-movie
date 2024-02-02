@@ -99,24 +99,24 @@ $ git remote set-head origin -a
 
 
 <div align="center">
-  <img src="https://i.postimg.cc/SQLRGtM0/Screenshot-2024-02-02-at-11-50-41-AM.png" width="250" hspace="20">
-  <img src="https://i.postimg.cc/Jz0hMrdm/Screenshot-2024-02-02-at-11-50-46-AM.png" width="250" hspace="20">
-  <img src="https://i.postimg.cc/D072Dnb9/Screenshot-2024-02-02-at-11-50-51-AM.png" width="250" hspace="20">
+  <img src="https://i.postimg.cc/SQLRGtM0/Screenshot-2024-02-02-at-11-50-41-AM.png" width="200" hspace="20">
+  <img src="https://i.postimg.cc/Jz0hMrdm/Screenshot-2024-02-02-at-11-50-46-AM.png" width="200" hspace="20">
+  <img src="https://i.postimg.cc/D072Dnb9/Screenshot-2024-02-02-at-11-50-51-AM.png" width="200" hspace="20">
 </div>
 
 <br>
 <br>
 
 <div align="center">
-  <img src="https://i.postimg.cc/W4Jbq9vH/Screenshot-2024-02-02-at-11-50-55-AM.png" width="250" hspace="20">
-  <img src="https://i.postimg.cc/HkNkLqfM/Screenshot-2024-02-02-at-11-50-58-AM.png" width="250" hspace="20">
-  <img src="https://i.postimg.cc/4d6fBmnv/Screenshot-2024-02-02-at-11-51-04-AM.png" width="250" hspace="20">
+  <img src="https://i.postimg.cc/W4Jbq9vH/Screenshot-2024-02-02-at-11-50-55-AM.png" width="200" hspace="20">
+  <img src="https://i.postimg.cc/HkNkLqfM/Screenshot-2024-02-02-at-11-50-58-AM.png" width="200" hspace="20">
+  <img src="https://i.postimg.cc/4d6fBmnv/Screenshot-2024-02-02-at-11-51-04-AM.png" width="200" hspace="20">
 </div>
 
 <br>
 <br>
 
 <div align="center">
-  <img src="https://i.postimg.cc/mDfZYQZ2/Screenshot-2024-02-02-at-11-51-16-AM.png" width="250" hspace="20">
-  <img src="https://i.postimg.cc/TYCPzL0C/Screenshot-2024-02-02-at-11-51-19-AM.png" width="250" hspace="20">
+  <img src="https://i.postimg.cc/mDfZYQZ2/Screenshot-2024-02-02-at-11-51-16-AM.png" width="200" hspace="20">
+  <img src="https://i.postimg.cc/TYCPzL0C/Screenshot-2024-02-02-at-11-51-19-AM.png" width="200" hspace="20">
 </div>
