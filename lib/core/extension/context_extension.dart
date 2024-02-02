@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
 extension ContextExtensions on BuildContext {
-  void showBottomSheet({required Widget content}) {
+  void showBottomSheet({required Widget content, bool isDismissible = false}) {
     showModalBottomSheet(
       context: this,
       backgroundColor: Colors.transparent,
       useSafeArea: false,
+      isDismissible: isDismissible,
       builder: (context) {
         return Container(
           padding: const EdgeInsets.all(16.0),

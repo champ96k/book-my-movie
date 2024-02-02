@@ -90,6 +90,7 @@ class CinemaListingWidget extends StatelessWidget {
                             'date': _seletedDate,
                             'languages': languages,
                             'selectedTime': show?.time ?? '',
+                            'cancellation': state.cinemas[i].nonCancellable,
                           },
                         );
                       },

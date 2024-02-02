@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PayFooterWidget extends StatelessWidget {
-  const PayFooterWidget({super.key});
+  const PayFooterWidget({super.key, required this.onTap});
+  final Function() onTap;
 
   @override
   Widget build(BuildContext context) {
     final _cubit = context.watch<TicketBookingCubit>();
-
     final _size = MediaQuery.of(context).size;
     return Container(
       width: double.infinity,
@@ -37,13 +37,14 @@ class PayFooterWidget extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 24.0),
-          if (_cubit.getSelectedSeats().isNotEmpty)
+          if (_cubit.getSelectedSeats().length == _cubit.totalTicketCount)
             PrimaryButton(
               color: Colors.red,
               borderRadius: 10.0,
               width: _size.width * 0.85,
               text: "Pay ₹ ${_cubit.getSelectedSeats().length * 100}",
-              onTap: () {},
+              fontWeight: FontWeight.w600,
+              onTap: onTap,
             ),
           const SizedBox(height: 24.0),
         ],

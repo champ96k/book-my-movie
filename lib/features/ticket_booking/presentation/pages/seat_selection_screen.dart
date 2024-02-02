@@ -1,7 +1,12 @@
+import 'package:book_my_movie/core/app_configs/screen_names.dart';
 import 'package:book_my_movie/core/enum/seat_status.dart';
+import 'package:book_my_movie/core/extension/context_extension.dart';
+import 'package:book_my_movie/core/extension/string_extenstion_method.dart';
 import 'package:book_my_movie/features/ticket_booking/data/models/cinema_list_model.dart';
+import 'package:book_my_movie/features/ticket_booking/data/models/ticket_book_model/ticket_book_model.dart';
 import 'package:book_my_movie/features/ticket_booking/presentation/pages/components/pay_footer_widget.dart';
 import 'package:book_my_movie/features/ticket_booking/presentation/pages/components/screen_placeholder.dart';
+import 'package:book_my_movie/features/ticket_booking/presentation/pages/components/seleat_seat_bottomsheet.dart';
 import 'package:book_my_movie/features/ticket_booking/presentation/pages/components/ticket_booking_top_header.dart';
 import 'package:book_my_movie/features/ticket_booking/presentation/ticket_booking_cubit/ticket_booking_cubit.dart';
 import 'package:book_my_movie/src/widgets/app_bar/custom_appbar.dart';
@@ -10,7 +15,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 const int rowCount = 10;
 
-class SeatSelectionScreen extends StatelessWidget {
+class SeatSelectionScreen extends StatefulWidget {
   const SeatSelectionScreen({
     super.key,
     required this.cinema,
@@ -18,6 +23,7 @@ class SeatSelectionScreen extends StatelessWidget {
     required this.movieName,
     required this.date,
     required this.selectedTime,
+    required this.cancellation,
   });
 
   final Cinema cinema;
@@ -25,6 +31,31 @@ class SeatSelectionScreen extends StatelessWidget {
   final String movieName;
   final String date;
   final String selectedTime;
+  final bool cancellation;
+
+  @override
+  State<SeatSelectionScreen> createState() => _SeatSelectionScreenState();
+}
+
+class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
+  TicketBookModel? model;
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _showSelectSeatBottomSheet();
+      model = TicketBookModel(
+        cinemaAddress: widget.cinema.address,
+        cinemaName: widget.cinema.name,
+        seletedDate: widget.date,
+        langauage: widget.languages,
+        movieName: widget.movieName,
+        movieTime: widget.selectedTime,
+        cancellation: widget.cancellation,
+      );
+      context.read<TicketBookingCubit>().setTicketBookModel(model);
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,17 +64,32 @@ class SeatSelectionScreen extends StatelessWidget {
       resizeToAvoidBottomInset: true,
       appBar: CustomAppBar(
         showSearch: false,
-        title: '$movieName - $languages',
-        subTitle: cinema.address ?? '',
+        title: '${widget.movieName} - ${widget.languages}',
+        subTitle: widget.cinema.address ?? '',
       ),
-      body: BlocBuilder<TicketBookingCubit, TicketBookingState>(
+      body: BlocConsumer<TicketBookingCubit, TicketBookingState>(
+        buildWhen: (previous, current) {
+          if (current is SeatSelectionErrorState) {
+            return false;
+          } else {
+            return true;
+          }
+        },
+        listener: (context, state) {
+          if (state is SeatSelectionErrorState) {
+            state.errorMessage.showSnackBar(context);
+          }
+        },
         builder: (context, state) {
           if (state is SeatSelectionState) {
             return SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Column(
                 children: [
-                  TicketBookingTopHeader(title: '$date - $selectedTime'),
+                  TicketBookingTopHeader(
+                    title: '${widget.date} - ${widget.selectedTime}',
+                    onEditTap: () => _showSelectSeatBottomSheet(),
+                  ),
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: SingleChildScrollView(
@@ -95,37 +141,6 @@ class SeatSelectionScreen extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                      // ElevatedButton(
-                                      //   onPressed: () {
-                                      //     ticketBookingCubit
-                                      //         .toggleSeatSelection(row, col);
-                                      //   },
-                                      //   style: ButtonStyle(
-                                      //     backgroundColor: MaterialStateProperty
-                                      //         .resolveWith<Color>(
-                                      //       (states) {
-                                      //         switch (state.seatStatusList[row]
-                                      //             [col]) {
-                                      //           case SeatStatus.available:
-                                      //             return Colors.blueGrey;
-                                      //           case SeatStatus.sold:
-                                      //             return Colors.grey;
-                                      //           case SeatStatus.selected:
-                                      //             return Colors.green;
-                                      //           default:
-                                      //             return Colors.white;
-                                      //         }
-                                      //       },
-                                      //     ),
-                                      //   ),
-                                      //   child: Text(
-                                      //     '${col + 1} ',
-                                      //     style: const TextStyle(
-                                      //       fontSize: 12,
-                                      //       fontWeight: FontWeight.bold,
-                                      //     ),
-                                      //   ),
-                                      // ),
                                     ),
                                 ],
                               ),
@@ -143,7 +158,22 @@ class SeatSelectionScreen extends StatelessWidget {
           }
         },
       ),
-      bottomNavigationBar: const PayFooterWidget(),
+      bottomNavigationBar: PayFooterWidget(
+        onTap: () {
+          Navigator.pushNamed(
+            context,
+            ScreenNames.ticketDetailsScreen,
+            arguments: {'ticketBookModel': ticketBookingCubit.ticketBookModel},
+          );
+        },
+      ),
+    );
+  }
+
+  void _showSelectSeatBottomSheet() {
+    final _cubit = context.read<TicketBookingCubit>();
+    context.showBottomSheet(
+      content: SelectSetaBottomSheet(cubit: _cubit),
     );
   }
 

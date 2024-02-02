@@ -4,4 +4,5 @@ class ScreenNames {
   static const String videoPlayerScreen = 'VideoPlayerScreen';
   static const String cinemaListingScreen = 'CinemaListingScreen';
   static const String seatSelectionScreen = 'SeatSelectionScreen';
+  static const String ticketDetailsScreen = 'TicketDetailsScreen';
 }

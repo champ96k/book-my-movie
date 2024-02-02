@@ -3,6 +3,7 @@ import 'package:book_my_movie/features/book_movies_ticket/presentation/pages/mov
 import 'package:book_my_movie/features/book_movies_ticket/presentation/pages/video_player/primary_video_player.dart';
 import 'package:book_my_movie/features/ticket_booking/presentation/pages/cinema_listing_screen.dart';
 import 'package:book_my_movie/features/ticket_booking/presentation/pages/seat_selection_screen.dart';
+import 'package:book_my_movie/features/ticket_booking/presentation/pages/ticket_details_screen.dart';
 import 'package:book_my_movie/features/ticket_booking/presentation/ticket_booking_cubit/ticket_booking_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,6 +31,7 @@ class RouteGenerator {
               date: args['date'] ?? '',
               languages: args['languages'] ?? '',
               selectedTime: args['selectedTime'] ?? '',
+              cancellation: args['cancellation'],
             ),
           ),
         );
@@ -39,6 +41,14 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (context) => MovieDetailsScreen(
             movieId: args['movieId'],
+          ),
+        );
+
+      case ScreenNames.ticketDetailsScreen:
+        final args = settings.arguments as Map<String, dynamic>;
+        return MaterialPageRoute(
+          builder: (context) => TicketDetailsScreen(
+            ticketBookModel: args['ticketBookModel'],
           ),
         );
 
