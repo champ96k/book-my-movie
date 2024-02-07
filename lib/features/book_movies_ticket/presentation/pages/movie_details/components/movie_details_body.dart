@@ -11,9 +11,14 @@ import 'package:book_my_movie/src/widgets/button/primary_button.dart';
 import 'package:flutter/material.dart';
 
 class MovieDetailsBody extends StatelessWidget {
-  const MovieDetailsBody({super.key, required this.model});
+  const MovieDetailsBody({
+    super.key,
+    required this.model,
+    required this.movieId,
+  });
 
   final MovieDetailsModel? model;
+  final int? movieId;
 
   @override
   Widget build(BuildContext context) {
@@ -150,7 +155,7 @@ class MovieDetailsBody extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 16.0),
         onTap: () {
           context.showBottomSheet(
-            content: _content(_languages, model?.title ?? '', context),
+            content: _content(_languages, model?.title ?? '', context, movieId),
           );
         },
       ),
@@ -158,7 +163,11 @@ class MovieDetailsBody extends StatelessWidget {
   }
 
   Widget _content(
-      List<SpokenLanguage> languages, String movieName, BuildContext context) {
+    List<SpokenLanguage> languages,
+    String movieName,
+    BuildContext context,
+    int? movieId,
+  ) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -184,6 +193,7 @@ class MovieDetailsBody extends StatelessWidget {
                   arguments: {
                     'languages': e.englishName ?? '',
                     'movieName': movieName,
+                    'movieId': movieId,
                   },
                 );
               },

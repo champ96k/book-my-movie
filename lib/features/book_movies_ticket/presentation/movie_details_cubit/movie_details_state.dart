@@ -21,8 +21,9 @@ class MoviesDetailsErrorState extends MovieDetailsState {
 }
 
 class MoviesDetailsLoadedState extends MovieDetailsState {
-  MoviesDetailsLoadedState(this.movieDetailsModel);
+  MoviesDetailsLoadedState(this.movieDetailsModel, this.movieId);
   final MovieDetailsModel? movieDetailsModel;
+  final int movieId;
   @override
-  List<Object?> get props => [movieDetailsModel];
+  List<Object?> get props => [movieDetailsModel, movieId];
 }

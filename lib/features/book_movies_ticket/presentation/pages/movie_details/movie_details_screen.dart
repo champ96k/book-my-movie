@@ -35,7 +35,10 @@ class MovieDetailsScreenContent extends StatelessWidget {
             if (state is MoviesDetailsLoadingState) {
               return const LoadingScreen();
             } else if (state is MoviesDetailsLoadedState) {
-              return MovieDetailsBody(model: state.movieDetailsModel);
+              return MovieDetailsBody(
+                model: state.movieDetailsModel,
+                movieId: state.movieId,
+              );
             } else if (state is MoviesDetailsErrorState) {
               return ErrorScreen(errorMessage: state.errorMessage);
             } else {

@@ -24,17 +24,18 @@ class DioHttpService implements HttpService {
     );
 
     /// Initialize the Dio instance with default options and adapters
-    _dio = Dio(BaseOptions(connectTimeout: const Duration(milliseconds: 10000)))
-      ..httpClientAdapter = Http2Adapter(ConnectionManager())
-      ..interceptors.add(
-        LogInterceptor(
-          request: true,
-          requestBody: false,
-          requestHeader: false,
-          responseBody: false,
-          responseHeader: false,
-        ),
-      );
+    _dio =
+        Dio(BaseOptions(connectTimeout: const Duration(milliseconds: 100000)))
+          ..httpClientAdapter = Http2Adapter(ConnectionManager())
+          ..interceptors.add(
+            LogInterceptor(
+              request: true,
+              requestBody: false,
+              requestHeader: false,
+              responseBody: false,
+              responseHeader: false,
+            ),
+          );
 
     /// Add the pretty logger interceptor only in debug mode
     if (kDebugMode) {

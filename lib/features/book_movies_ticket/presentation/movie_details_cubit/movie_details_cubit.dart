@@ -18,7 +18,7 @@ class MovieDetailsCubit extends Cubit<MovieDetailsState> {
     emit(MoviesDetailsLoadingState());
     final _result = await repository.getMovieDetails(movieId);
     if (_result.data != null) {
-      emit(MoviesDetailsLoadedState(_result.data));
+      emit(MoviesDetailsLoadedState(_result.data, movieId));
     } else {
       emit(MoviesDetailsErrorState(_result.error?.message ?? ''));
     }
