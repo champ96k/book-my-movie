@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:book_my_movie/core/app_configs/screen_names.dart';
 import 'package:book_my_movie/core/extension/context_extension.dart';
 import 'package:book_my_movie/core/extension/num_extension.dart';
@@ -141,25 +143,28 @@ class MovieDetailsBody extends StatelessWidget {
           );
         },
       ),
-      bottomNavigationBar: PrimaryButton(
-        borderRadius: 6.0,
-        color: Colors.red,
-        fontSize: 16.0,
-        fontWeight: FontWeight.w600,
-        text: "Book tickets",
-        margin: const EdgeInsets.symmetric(horizontal: 16.0),
-        onTap: () {
-          context.showBottomSheet(
-            isDismissible: true,
-            content: _content(
-              _languages,
-              model?.title ?? '',
-              context,
-              model?.id,
-              model?.posterPath,
-            ),
-          );
-        },
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.only(bottom: Platform.isAndroid ? 20 : 5),
+        child: PrimaryButton(
+          borderRadius: 6.0,
+          color: Colors.red,
+          fontSize: 16.0,
+          fontWeight: FontWeight.w600,
+          text: "Book tickets",
+          margin: const EdgeInsets.symmetric(horizontal: 16.0),
+          onTap: () {
+            context.showBottomSheet(
+              isDismissible: true,
+              content: _content(
+                _languages,
+                model?.title ?? '',
+                context,
+                model?.id,
+                model?.posterPath,
+              ),
+            );
+          },
+        ),
       ),
     );
   }
