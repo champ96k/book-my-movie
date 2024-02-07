@@ -15,10 +15,14 @@ class CinemaListingScreen extends StatelessWidget {
     super.key,
     required this.languages,
     required this.movieName,
+    required this.posterURL,
+    required this.movieId,
   });
 
   final String languages;
   final String movieName;
+  final String posterURL;
+  final int movieId;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +33,8 @@ class CinemaListingScreen extends StatelessWidget {
       child: CinemaListingWidget(
         languages: languages,
         movieName: movieName,
+        movieId: movieId,
+        posterURL: posterURL,
       ),
     );
   }
@@ -39,16 +45,23 @@ class CinemaListingWidget extends StatelessWidget {
     super.key,
     required this.languages,
     required this.movieName,
+    required this.movieId,
+    required this.posterURL,
   });
 
   final String languages;
   final String movieName;
+  final String posterURL;
+  final int movieId;
 
   @override
   Widget build(BuildContext context) {
     String _seletedDate = '';
     return Scaffold(
-      appBar: CustomAppBar(title: movieName),
+      appBar: CustomAppBar(
+        title: movieName,
+        showBookedMovieIcon: false,
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,6 +104,8 @@ class CinemaListingWidget extends StatelessWidget {
                             'languages': languages,
                             'selectedTime': show?.time ?? '',
                             'cancellation': state.cinemas[i].nonCancellable,
+                            'movieId': movieId,
+                            'posterURL': posterURL,
                           },
                         );
                       },

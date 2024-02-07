@@ -1,7 +1,10 @@
+import 'package:book_my_movie/core/app_configs/screen_names.dart';
 import 'package:book_my_movie/features/ticket_booking/data/models/ticket_book_model/ticket_book_model.dart';
+import 'package:book_my_movie/features/ticket_booking/presentation/ticket_booking_cubit/ticket_booking_cubit.dart';
 import 'package:book_my_movie/src/widgets/app_bar/custom_appbar.dart';
 import 'package:book_my_movie/src/widgets/button/primary_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TicketDetailsScreen extends StatelessWidget {
   const TicketDetailsScreen({
@@ -9,15 +12,16 @@ class TicketDetailsScreen extends StatelessWidget {
     required this.ticketBookModel,
   });
 
-  final TicketBookModel? ticketBookModel;
+  final TicketBookModel ticketBookModel;
 
   @override
   Widget build(BuildContext context) {
-    final _selectedSeat = ticketBookModel?.selectedSeatsName ?? [];
+    final _cubit = context.read<TicketBookingCubit>();
+    final _selectedSeat = ticketBookModel.selectedSeatsName ?? [];
     return Scaffold(
       appBar: const CustomAppBar(
         title: 'Confirm booking',
-        showSearch: false,
+        showBookedMovieIcon: false,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24.0),
@@ -34,7 +38,7 @@ class TicketDetailsScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          ticketBookModel?.movieName ?? '',
+                          ticketBookModel.movieName ?? '',
                           style: const TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w600,
@@ -66,7 +70,7 @@ class TicketDetailsScreen extends StatelessWidget {
                       ],
                     ),
                     Text(
-                      "${ticketBookModel?.seletedDate} | ${ticketBookModel?.movieTime}",
+                      "${ticketBookModel.seletedDate} | ${ticketBookModel.movieTime}",
                       style: const TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.w400,
@@ -75,7 +79,7 @@ class TicketDetailsScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 10.0),
                     Text(
-                      '${ticketBookModel?.langauage} 2D',
+                      '${ticketBookModel.langauage} 2D',
                       style: TextStyle(
                         color: Colors.black.withOpacity(0.7),
                         fontSize: 14.0,
@@ -83,7 +87,7 @@ class TicketDetailsScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 2.0),
                     Text(
-                      ticketBookModel?.cinemaAddress ?? '',
+                      ticketBookModel.cinemaAddress ?? '',
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -130,7 +134,7 @@ class TicketDetailsScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Cancellation ${(ticketBookModel?.cancellation ?? false) ? 'unavailable' : 'available'}',
+                            'Cancellation ${(ticketBookModel.cancellation ?? false) ? 'unavailable' : 'available'}',
                             style: const TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.w500,
@@ -139,7 +143,7 @@ class TicketDetailsScreen extends StatelessWidget {
                           ),
                           const SizedBox(height: 6.0),
                           Text(
-                            'This venue ${(ticketBookModel?.cancellation ?? false) ? 'does not support' : ''} support booking Cancellation',
+                            'This venue ${(ticketBookModel.cancellation ?? false) ? 'does not support' : ''} support booking Cancellation',
                             style: const TextStyle(
                               color: Colors.black54,
                               fontSize: 14.0,
@@ -196,17 +200,38 @@ class TicketDetailsScreen extends StatelessWidget {
               ],
             ),
             const Spacer(),
-            PrimaryButton(
-              width: 150,
-              margin: const EdgeInsets.only(bottom: 16.0, top: 10),
-              color: Colors.red,
-              borderRadius: 10.0,
-              text: "Pay",
-              fontWeight: FontWeight.w600,
-              onTap: () {
-                //!
+            BlocConsumer<TicketBookingCubit, TicketBookingState>(
+              listener: (context, state) {
+                if (state is TicketConfirmState) {
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                    ScreenNames.bookingConfirmScreen,
+                    (route) => false,
+                  );
+                }
               },
-            ),
+              builder: (context, state) {
+                if (state is SeatSelectionLoadingState) {
+                  return Container(
+                    height: 25,
+                    width: 25,
+                    alignment: Alignment.center,
+                    child: const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                } else {
+                  return PrimaryButton(
+                    width: 150,
+                    margin: const EdgeInsets.only(bottom: 16.0, top: 10),
+                    color: Colors.red,
+                    borderRadius: 10.0,
+                    text: "Pay",
+                    fontWeight: FontWeight.w600,
+                    onTap: () => _cubit.addBookedMovies(ticketBookModel),
+                  );
+                }
+              },
+            )
           ],
         ),
       ),

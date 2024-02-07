@@ -1,3 +1,4 @@
+import 'package:book_my_movie/core/app_configs/screen_names.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -9,7 +10,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.surfaceTintColor,
     this.bottom,
     this.elevation,
-    this.showSearch = true,
+    this.showBookedMovieIcon = true,
     this.title = "Now Showing",
     this.subTitle = '',
     super.key,
@@ -22,7 +23,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Color? surfaceTintColor;
   final PreferredSizeWidget? bottom;
   final double? elevation;
-  final bool showSearch;
+  final bool showBookedMovieIcon;
   final String title;
   final String subTitle;
 
@@ -55,11 +56,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       centerTitle: centerTitle,
       actions: [
         ...actions,
-        if (showSearch)
+        if (showBookedMovieIcon)
           IconButton(
-            onPressed: () {},
+            onPressed: () => Navigator.pushNamed(
+              context,
+              ScreenNames.bookedMoviesScreen,
+            ),
             icon: const Icon(
-              Icons.search,
+              Icons.drive_file_move_rtl_outlined,
               size: 30,
             ),
           ),

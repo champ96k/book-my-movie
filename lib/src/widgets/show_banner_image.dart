@@ -3,9 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ShowBannerImage extends StatelessWidget {
-  const ShowBannerImage({super.key, required this.imagePath});
+  const ShowBannerImage({
+    super.key,
+    required this.imagePath,
+    this.height,
+    this.width,
+  });
 
   final String? imagePath;
+  final double? height;
+  final double? width;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +25,8 @@ class ShowBannerImage extends StatelessWidget {
         cacheKey: imagePath,
         imageUrl: 'https://image.tmdb.org/t/p/original$imagePath',
         fit: BoxFit.cover,
-        width: double.infinity,
+        width: width ?? double.infinity,
+        height: height,
         progressIndicatorBuilder: (context, url, downloadProgress) {
           return Shimmer.fromColors(
             baseColor: Colors.grey,

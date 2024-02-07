@@ -1,3 +1,4 @@
+import 'package:book_my_movie/generated/assets.gen.dart';
 import 'package:flutter/material.dart';
 
 class LoadingScreen extends StatelessWidget {
@@ -5,9 +6,9 @@ class LoadingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
-        child: CircularProgressIndicator(),
+        child: Assets.json.loading.lottie(),
       ),
     );
   }

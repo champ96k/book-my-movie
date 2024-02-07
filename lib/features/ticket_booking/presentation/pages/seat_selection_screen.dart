@@ -24,6 +24,8 @@ class SeatSelectionScreen extends StatefulWidget {
     required this.date,
     required this.selectedTime,
     required this.cancellation,
+    required this.movieId,
+    required this.posterURL,
   });
 
   final Cinema cinema;
@@ -32,6 +34,8 @@ class SeatSelectionScreen extends StatefulWidget {
   final String date;
   final String selectedTime;
   final bool cancellation;
+  final int movieId;
+  final String posterURL;
 
   @override
   State<SeatSelectionScreen> createState() => _SeatSelectionScreenState();
@@ -51,6 +55,8 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
         movieName: widget.movieName,
         movieTime: widget.selectedTime,
         cancellation: widget.cancellation,
+        movieId: widget.movieId,
+        posterURL: widget.posterURL,
       );
       context.read<TicketBookingCubit>().setTicketBookModel(model);
     });
@@ -63,7 +69,7 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: CustomAppBar(
-        showSearch: false,
+        showBookedMovieIcon: false,
         title: '${widget.movieName} - ${widget.languages}',
         subTitle: widget.cinema.address ?? '',
       ),

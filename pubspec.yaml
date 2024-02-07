@@ -63,6 +63,9 @@ dependencies:
   #Video Player
   youtube_player_flutter: ^8.1.2
 
+  #Animation
+  lottie: ^3.0.0
+
 dev_dependencies:
 
   flutter_test:

@@ -1,6 +1,8 @@
 import 'package:book_my_movie/features/book_movies_ticket/presentation/pages/home_page.dart';
 import 'package:book_my_movie/features/book_movies_ticket/presentation/pages/movie_details/movie_details_screen.dart';
 import 'package:book_my_movie/features/book_movies_ticket/presentation/pages/video_player/primary_video_player.dart';
+import 'package:book_my_movie/features/booked_movies/presentation/pages/booked_movies_screen.dart';
+import 'package:book_my_movie/features/booked_movies/presentation/pages/booking_confirm_screen.dart';
 import 'package:book_my_movie/features/ticket_booking/presentation/pages/cinema_listing_screen.dart';
 import 'package:book_my_movie/features/ticket_booking/presentation/pages/seat_selection_screen.dart';
 import 'package:book_my_movie/features/ticket_booking/presentation/pages/ticket_details_screen.dart';
@@ -32,6 +34,8 @@ class RouteGenerator {
               languages: args['languages'] ?? '',
               selectedTime: args['selectedTime'] ?? '',
               cancellation: args['cancellation'],
+              movieId: args['movieId'],
+              posterURL: args['posterURL'],
             ),
           ),
         );
@@ -47,8 +51,11 @@ class RouteGenerator {
       case ScreenNames.ticketDetailsScreen:
         final args = settings.arguments as Map<String, dynamic>;
         return MaterialPageRoute(
-          builder: (context) => TicketDetailsScreen(
-            ticketBookModel: args['ticketBookModel'],
+          builder: (context) => BlocProvider<TicketBookingCubit>(
+            create: (context) => TicketBookingCubit(),
+            child: TicketDetailsScreen(
+              ticketBookModel: args['ticketBookModel'],
+            ),
           ),
         );
 
@@ -66,7 +73,19 @@ class RouteGenerator {
           builder: (context) => CinemaListingScreen(
             languages: args['languages'],
             movieName: args['movieName'],
+            movieId: args['movieId'],
+            posterURL: args['posterURL'],
           ),
+        );
+
+      case ScreenNames.bookedMoviesScreen:
+        return MaterialPageRoute(
+          builder: (context) => const BookedMoviesScreen(),
+        );
+
+      case ScreenNames.bookingConfirmScreen:
+        return MaterialPageRoute(
+          builder: (context) => const BookingConfirmScreen(),
         );
 
       default:

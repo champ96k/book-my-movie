@@ -1,3 +1,4 @@
+import 'package:book_my_movie/generated/assets.gen.dart';
 import 'package:flutter/material.dart';
 
 class ErrorScreen extends StatelessWidget {
@@ -9,7 +10,16 @@ class ErrorScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text("Error: $errorMessage"),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(
+              child: Assets.json.error.lottie(),
+            ),
+            const SizedBox(height: 16.0),
+            Text("Error: $errorMessage"),
+          ],
+        ),
       ),
     );
   }

@@ -8,6 +8,8 @@ class TicketBookModel {
     this.langauage,
     this.selectedSeatsName,
     this.cancellation,
+    required this.movieId,
+    required this.posterURL,
   });
 
   final String? movieName;
@@ -18,4 +20,6 @@ class TicketBookModel {
   final String? langauage;
   final bool? cancellation;
   List<String>? selectedSeatsName;
+  final String posterURL;
+  final int movieId;
 }

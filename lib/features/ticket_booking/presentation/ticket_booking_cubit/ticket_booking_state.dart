@@ -25,3 +25,13 @@ class SeatSelectionErrorState extends TicketBookingState {
   @override
   List<Object?> get props => [errorMessage];
 }
+
+class SeatSelectionLoadingState extends TicketBookingState {
+  @override
+  List<Object?> get props => ['SeatSelectionLoadingState'];
+}
+
+class TicketConfirmState extends TicketBookingState {
+  @override
+  List<Object?> get props => ['TicketConfirmState'];
+}
