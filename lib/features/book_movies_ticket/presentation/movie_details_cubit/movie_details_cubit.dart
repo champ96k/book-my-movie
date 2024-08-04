@@ -1,26 +1,23 @@
+import 'package:book_my_movie/core/generic/base_state.dart';
 import 'package:book_my_movie/features/book_movies_ticket/data/models/movie_details_model/movie_details_model.dart';
 import 'package:book_my_movie/features/book_movies_ticket/domain/repositories/movies_repository.dart';
-import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-part 'movie_details_state.dart';
-
-class MovieDetailsCubit extends Cubit<MovieDetailsState> {
-  MovieDetailsCubit({required this.movieId, required this.repository})
-      : super(MovieDetailsInitialState()) {
+class MoviesDetailsCubit extends Cubit<BaseState> {
+  MoviesDetailsCubit({required this.repository, required this.movieId})
+      : super(LoadingState()) {
     _fetchMovieDetails();
   }
 
-  final int movieId;
   final MoviesRepository repository;
+  final int movieId;
 
   Future<void> _fetchMovieDetails() async {
-    emit(MoviesDetailsLoadingState());
     final _result = await repository.getMovieDetails(movieId);
     if (_result.data != null) {
-      emit(MoviesDetailsLoadedState(_result.data, movieId));
+      emit(LoadedState<MovieDetailsModel?>(_result.data));
     } else {
-      emit(MoviesDetailsErrorState(_result.error?.message ?? ''));
+      emit(ErrorState(_result.error?.message ?? ''));
     }
   }
 }
