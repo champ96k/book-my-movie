@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Exit on any error
+set -e
+
 # Set environment variables
 OPENAI_API_KEY="$OPENAI_API_KEY"
 GITHUB_TOKEN="$GITHUB_TOKEN"
@@ -21,14 +24,11 @@ CHANGED_FILES=$(git diff --name-only origin/main)
 echo "Changed files:"
 echo "$CHANGED_FILES"
 
-# Loop through each changed file and review it using OpenAI API
 for file in $CHANGED_FILES; do
     echo "Reviewing $file"
 
-    # Get the diff of the file
     FILE_DIFF=$(git diff origin/main -- "$file")
 
-    # Call OpenAI's API for code review
     RESPONSE=$(curl -X POST https://api.openai.com/v1/completions \
       -H "Authorization: Bearer $OPENAI_API_KEY" \
       -H "Content-Type: application/json" \
@@ -53,7 +53,7 @@ for file in $CHANGED_FILES; do
           "body": "$SUGGESTION",
           "event": "COMMENT"
         }
-        EOF
+EOF
         )
 
         echo "Posting review:"
