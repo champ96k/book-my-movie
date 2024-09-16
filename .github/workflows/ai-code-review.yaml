@@ -33,8 +33,8 @@ jobs:
 
       # Step 4: Grant execute permission
       - name: Grant execute permission to the script
-        run: chmod +x flutter_project/scripts/run_code_reviewer.sh
+        run: chmod +x ./scripts/run_code_reviewer.sh
 
       # Step 5: Run the AI code reviewer
       - name: Run AI Code Reviewer
-        run: ./flutter_project/scripts/run_code_reviewer.sh
+        run: ./scripts/run_code_reviewer.sh
