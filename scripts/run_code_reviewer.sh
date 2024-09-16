@@ -12,7 +12,7 @@ PR_NUMBER="$PR_NUMBER"
 post_pr_comment() {
     local message=$1
     echo "Posting comment: $message"
-    curl -X POST \
+    curl -s -X POST \
       -H "Authorization: token $GITHUB_TOKEN" \
       -H "Content-Type: application/json" \
       -d "{\"body\": \"$message\"}" \
@@ -130,4 +130,7 @@ SUMMARY=$(generate_summary "$CHANGED_FILES")
 
 # Post final review based on success flag
 if [ "$success" = true ]; then
-    post_pr_comment "The PR has been reviewed and is ready to merge
+    post_pr_comment "The PR has been reviewed and is ready to merge.\n\n$SUMMARY"
+else
+    post_pr_comment "The PR has been reviewed but contains issues. Please check the review comments.\n\n$SUMMARY"
+fi
