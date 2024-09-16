@@ -1,3 +1,12 @@
+name: AI Code Reviewer
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+
 jobs:
   ai-code-review:
     runs-on: ubuntu-latest
@@ -6,25 +15,30 @@ jobs:
       pull-requests: write # Allow write access to PRs
 
     steps:
+      # Step 1: Check out the pull request code
       - name: Checkout code
         uses: actions/checkout@v2
         with:
-          fetch-depth: 0
+          fetch-depth: 0 # Fetches the entire history for the repository
 
+      # Step 2: Set up environment variables
       - name: Set up environment variables
         run: |
           echo "GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}" >> $GITHUB_ENV
           echo "GITHUB_REPO=${{ github.repository }}" >> $GITHUB_ENV
           echo "PR_NUMBER=${{ github.event.pull_request.number }}" >> $GITHUB_ENV
 
+      # Step 3: Install jq for JSON parsing
       - name: Install dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y jq
 
+      # Step 4: Grant execute permission
       - name: Grant execute permission to the script
         run: chmod +x ./scripts/run_code_reviewer.sh
 
+      # Step 5: Run the AI code reviewer
       - name: Run AI Code Reviewer
         run: ./scripts/run_code_reviewer.sh
         env:
