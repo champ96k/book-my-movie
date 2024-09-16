@@ -26,11 +26,13 @@ generate_review() {
       -H "Authorization: Bearer $OPENAI_API_KEY" \
       -H "Content-Type: application/json" \
       -d '{
-        "model": "gpt-4",
+        "model": "gpt-3.5-turbo",
         "prompt": "Review the following code and provide detailed suggestions for improvement:\n\n'"$file_diff"'",
         "max_tokens": 1000,
         "temperature": 0.7
       }')
+
+    echo "OpenAI API Response: $response"  # Debug: Print OpenAI response
 
     local review=$(echo "$response" | jq -r '.choices[0].text // "No suggestions available"')
     echo "$review"
@@ -43,22 +45,32 @@ generate_summary() {
 
     for file in $changed_files; do
         local file_summary="**File:** $file\n"
+
+        echo "summary files are:" $file
+
         local file_diff=$(git diff origin/main...HEAD -- "$file")
         local functions_added=$(echo "$file_diff" | grep -E '^\+[^+]' | grep -E '^[^\+\s]*\s+[\w]+\s*\(.*\)' | sort | uniq)
         local functions_deleted=$(echo "$file_diff" | grep -E '^\-[^-]' | grep -E '^[^\-\s]*\s+[\w]+\s*\(.*\)' | sort | uniq)
         local functions_refactored=$(echo "$file_diff" | grep -E '^\+[^+]' | grep -E '^[^\+\s]*\s+[\w]+\s*\(.*\)' | grep -E '^[^\+\s]*\s+[\w]+\s*\(.*\)' | sort | uniq)
 
+
+        echo "summary files file_diff:" $file_diff 
+
         file_summary+="**Changes:**\n$file_diff\n\n"
         if [ -n "$functions_added" ]; then
+            echo "summary files file_diff:" $functions_added   
             file_summary+="**Functions Added:**\n$functions_added\n\n"
         fi
         if [ -n "$functions_deleted" ]; then
+            echo "summary files file_diff:" $functions_deleted   
             file_summary+="**Functions Deleted:**\n$functions_deleted\n\n"
         fi
         if [ -n "$functions_refactored" ]; then
+            echo "summary files file_diff:" $functions_refactored   
             file_summary+="**Functions Refactored:**\n$functions_refactored\n\n"
         fi
 
+        echo "summary files file_summary:" $file_summary   
         summary+="$file_summary"
     done
 
@@ -117,6 +129,8 @@ EOF
           "https://api.github.com/repos/$GITHUB_REPO/pulls/$PR_NUMBER/reviews")
 
         # Check if response indicates an error
+        echo "GitHub API Response: $RESPONSE"  # Debug: Print GitHub response
+
         if echo "$RESPONSE" | grep -q "error"; then
             echo "Error posting review for $file: $RESPONSE"
             success=false
