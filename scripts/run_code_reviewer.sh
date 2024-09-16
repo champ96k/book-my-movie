@@ -6,6 +6,15 @@ GITHUB_TOKEN="$GITHUB_TOKEN"
 GITHUB_REPO="$GITHUB_REPO"
 PR_NUMBER="$PR_NUMBER"
 
+echo "Using GitHub repo: $GITHUB_REPO"
+echo "Using PR number: $PR_NUMBER"
+
+# Fetch all branches and commits
+git fetch --all
+
+# Check out the base branch (e.g., 'main') to ensure it's available
+git checkout main
+
 # Get the list of changed files in the PR
 CHANGED_FILES=$(git diff --name-only origin/main)
 
@@ -30,25 +39,32 @@ for file in $CHANGED_FILES; do
         "temperature": 0
       }')
 
-    # Extract and print the suggestions from OpenAI's response
-    SUGGESTION=$(echo "$RESPONSE" | jq -r '.choices[0].text')
+    echo "OpenAI response:"
+    echo "$RESPONSE"
+
+    SUGGESTION=$(echo "$RESPONSE" | jq -r '.choices[0].text // "No suggestions available"')
+
     echo "Suggestion for $file:"
     echo "$SUGGESTION"
 
-    # Use the GitHub API to post the suggestion as a comment on the PR
-    COMMENT_PAYLOAD=$(cat <<EOF
-{
-  "body": "$SUGGESTION",
-  "path": "$file",
-  "position": 1,
-  "side": "RIGHT"
-}
-EOF
-    )
+    if [ "$SUGGESTION" != "No suggestions available" ]; then
+        REVIEW_PAYLOAD=$(cat <<EOF
+        {
+          "body": "$SUGGESTION",
+          "event": "COMMENT"
+        }
+        EOF
+        )
 
-    curl -X POST \
-      -H "Authorization: token $GITHUB_TOKEN" \
-      -H "Content-Type: application/json" \
-      -d "$COMMENT_PAYLOAD" \
-      "https://api.github.com/repos/$GITHUB_REPO/pulls/$PR_NUMBER/comments"
+        echo "Posting review:"
+        echo "$REVIEW_PAYLOAD"
+
+        curl -X POST \
+          -H "Authorization: token $GITHUB_TOKEN" \
+          -H "Content-Type: application/json" \
+          -d "$REVIEW_PAYLOAD" \
+          "https://api.github.com/repos/$GITHUB_REPO/pulls/$PR_NUMBER/reviews"
+    else
+        echo "No suggestion provided for $file."
+    fi
 done
