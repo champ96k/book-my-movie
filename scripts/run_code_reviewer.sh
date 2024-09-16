@@ -3,7 +3,7 @@
 # Exit on any error
 set -e
 
-# Set environment variables
+# Environment variables
 OPENAI_API_KEY="$OPENAI_API_KEY"
 GITHUB_TOKEN="$GITHUB_TOKEN"
 GITHUB_REPO="$GITHUB_REPO"
@@ -30,6 +30,40 @@ post_pr_review() {
       "https://api.github.com/repos/$GITHUB_REPO/pulls/$PR_NUMBER/reviews"
 }
 
+# Generate a summary of changes in the PR
+generate_summary() {
+    local changed_files=$1
+    local summary="### Summary of Changes\n\n"
+
+    for file in $changed_files; do
+        local file_summary="**File:** $file\n"
+
+        # Get the diff for the file
+        local file_diff=$(git diff origin/main...HEAD -- "$file")
+        file_summary+="**Changes:**\n$file_diff\n\n"
+
+        # Extract function additions, modifications, and deletions
+        local functions_added=$(echo "$file_diff" | grep -E '^\+[^+]' | grep -E '^[^\+\s]*\s+[\w]+\s*\(.*\)' | sort | uniq)
+        local functions_deleted=$(echo "$file_diff" | grep -E '^\-[^-]' | grep -E '^[^\-\s]*\s+[\w]+\s*\(.*\)' | sort | uniq)
+        local functions_refactored=$(echo "$file_diff" | grep -E '^\+[^+]' | grep -E '^[^\+\s]*\s+[\w]+\s*\(.*\)' | grep -E '^[^\+\s]*\s+[\w]+\s*\(.*\)' | sort | uniq)
+
+        if [ -n "$functions_added" ]; then
+            file_summary+="**Functions Added:**\n$functions_added\n\n"
+        fi
+        if [ -n "$functions_deleted" ]; then
+            file_summary+="**Functions Deleted:**\n$functions_deleted\n\n"
+        fi
+        if [ -n "$functions_refactored" ]; then
+            file_summary+="**Functions Refactored:**\n$functions_refactored\n\n"
+        fi
+
+        # Append the file summary to the overall summary
+        summary+="$file_summary"
+    done
+
+    echo "$summary"
+}
+
 echo "Using GitHub repo: $GITHUB_REPO"
 echo "Using PR number: $PR_NUMBER"
 
@@ -40,7 +74,7 @@ git fetch --all
 git checkout main
 
 # Get the list of changed files in the PR
-CHANGED_FILES=$(git diff --name-only origin/main)
+CHANGED_FILES=$(git diff --name-only origin/main...HEAD)
 
 echo "Changed files:"
 echo "$CHANGED_FILES"
@@ -48,10 +82,13 @@ echo "$CHANGED_FILES"
 # Flag for successful review
 success=true
 
+# Initialize summary
+SUMMARY=""
+
 for file in $CHANGED_FILES; do
     echo "Reviewing $file"
 
-    FILE_DIFF=$(git diff origin/main -- "$file")
+    FILE_DIFF=$(git diff origin/main...HEAD -- "$file")
 
     RESPONSE=$(curl -X POST https://api.openai.com/v1/completions \
       -H "Authorization: Bearer $OPENAI_API_KEY" \
@@ -99,9 +136,12 @@ EOF
     fi
 done
 
+# Generate summary of changes
+SUMMARY=$(generate_summary "$CHANGED_FILES")
+
 # Post final review based on success flag
 if [ "$success" = true ]; then
-    post_pr_comment "The PR has been reviewed and is ready to merge."
+    post_pr_comment "The PR has been reviewed and is ready to merge.\n\n$SUMMARY"
 else
-    post_pr_comment "The PR has been reviewed but contains issues. Please check the review comments."
+    post_pr_comment "The PR has been reviewed but contains issues. Please check the review comments.\n\n$SUMMARY"
 fi
