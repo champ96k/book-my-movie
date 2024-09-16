@@ -3,7 +3,7 @@
 # Exit on any error
 set -e
 
-# Set environment variables
+# Environment variables
 OPENAI_API_KEY="$OPENAI_API_KEY"
 GITHUB_TOKEN="$GITHUB_TOKEN"
 GITHUB_REPO="$GITHUB_REPO"
@@ -40,7 +40,7 @@ git fetch --all
 git checkout main
 
 # Get the list of changed files in the PR
-CHANGED_FILES=$(git diff --name-only origin/main)
+CHANGED_FILES=$(git diff --name-only origin/main...HEAD)
 
 echo "Changed files:"
 echo "$CHANGED_FILES"
@@ -51,7 +51,7 @@ success=true
 for file in $CHANGED_FILES; do
     echo "Reviewing $file"
 
-    FILE_DIFF=$(git diff origin/main -- "$file")
+    FILE_DIFF=$(git diff origin/main...HEAD -- "$file")
 
     RESPONSE=$(curl -X POST https://api.openai.com/v1/completions \
       -H "Authorization: Bearer $OPENAI_API_KEY" \
