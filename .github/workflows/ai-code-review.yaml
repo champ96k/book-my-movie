@@ -31,6 +31,10 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y jq
 
-      # Step 4: Run the AI code reviewer
+      # Step 4: Grant execute permission
+      - name: Grant execute permission to the script
+        run: chmod +x flutter_project/scripts/run_code_reviewer.sh
+
+      # Step 5: Run the AI code reviewer
       - name: Run AI Code Reviewer
-        run: ./scripts/run_code_reviewer.sh
+        run: ./flutter_project/scripts/run_code_reviewer.sh
