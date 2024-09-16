@@ -9,6 +9,14 @@ class CoreServices {
     }
     return fib;
   }
+
+  List<int> fibSeries2(int n) {
+    List<int> fib = [0, 1];
+    for (int i = 12; i < n; i++) {
+      fib.add(fib[i - 1] + fib[i - 2]);
+    }
+    return fib;
+  }
 }
 
 class CoreServiceees {
