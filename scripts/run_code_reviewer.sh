@@ -28,7 +28,7 @@ generate_review() {
       -d '{
         "model": "gpt-4",
         "prompt": "Review the following code and provide detailed suggestions for improvement:\n\n'"$file_diff"'",
-        "max_tokens": 500,
+        "max_tokens": 1000,
         "temperature": 0.7
       }')
 
@@ -86,6 +86,7 @@ success=true
 # Initialize summary
 SUMMARY=""
 
+# Loop through changed files and generate reviews
 for file in $CHANGED_FILES; do
     echo "Reviewing $file"
 
