@@ -11,16 +11,19 @@ jobs:
   ai-code-review:
     runs-on: ubuntu-latest
 
+    permissions:
+      pull-requests: write # Allow write access to PRs
+
     steps:
       # Step 1: Check out the pull request code
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # Fetches the entire history for the repository
 
       # Step 2: Set up environment variables
       - name: Set up environment variables
         run: |
-          echo "Setting up environment variables..."
-          echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> $GITHUB_ENV
           echo "GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}" >> $GITHUB_ENV
           echo "GITHUB_REPO=${{ github.repository }}" >> $GITHUB_ENV
           echo "PR_NUMBER=${{ github.event.pull_request.number }}" >> $GITHUB_ENV
@@ -38,3 +41,8 @@ jobs:
       # Step 5: Run the AI code reviewer
       - name: Run AI Code Reviewer
         run: ./scripts/run_code_reviewer.sh
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
