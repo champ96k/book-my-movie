@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
+
 class CoreServices {
   //Write fib series function here
   List<int> fibSeries(int n) {
@@ -27,7 +29,7 @@ class CoreServiceees {
 
   dynamic temp = 12;
   void initialize() {
-    print("initializing Core services");
+    debugPrint("initializing Core services");
     _emptySetupHive();
   }
 
@@ -35,7 +37,7 @@ class CoreServiceees {
     temp = "Hive Initialized ⛑";
   }
 
-  _init(int value) {
+  void init(int value) {
     _controller.add(value);
   }
 }
