@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# Exit on any error
 set -e
 
 # Environment variables
@@ -12,6 +11,7 @@ PR_NUMBER="$PR_NUMBER"
 # Function to post a comment to the PR
 post_pr_comment() {
     local message=$1
+    echo "Posting comment: $message"
     curl -X POST \
       -H "Authorization: token $GITHUB_TOKEN" \
       -H "Content-Type: application/json" \
@@ -19,15 +19,21 @@ post_pr_comment() {
       "https://api.github.com/repos/$GITHUB_REPO/issues/$PR_NUMBER/comments"
 }
 
-# Function to post a review to the PR
-post_pr_review() {
-    local message=$1
-    local event=$2
-    curl -X POST \
-      -H "Authorization: token $GITHUB_TOKEN" \
+# Function to generate a review using OpenAI
+generate_review() {
+    local file_diff=$1
+    local response=$(curl -s -X POST https://api.openai.com/v1/completions \
+      -H "Authorization: Bearer $OPENAI_API_KEY" \
       -H "Content-Type: application/json" \
-      -d "{\"body\": \"$message\", \"event\": \"$event\"}" \
-      "https://api.github.com/repos/$GITHUB_REPO/pulls/$PR_NUMBER/reviews"
+      -d '{
+        "model": "gpt-4",
+        "prompt": "Review the following code and provide detailed suggestions for improvement:\n\n'"$file_diff"'",
+        "max_tokens": 500,
+        "temperature": 0.7
+      }')
+
+    local review=$(echo "$response" | jq -r '.choices[0].text // "No suggestions available"')
+    echo "$review"
 }
 
 # Generate a summary of changes in the PR
@@ -37,16 +43,12 @@ generate_summary() {
 
     for file in $changed_files; do
         local file_summary="**File:** $file\n"
-
-        # Get the diff for the file
         local file_diff=$(git diff origin/main...HEAD -- "$file")
-        file_summary+="**Changes:**\n$file_diff\n\n"
-
-        # Extract function additions, modifications, and deletions
         local functions_added=$(echo "$file_diff" | grep -E '^\+[^+]' | grep -E '^[^\+\s]*\s+[\w]+\s*\(.*\)' | sort | uniq)
         local functions_deleted=$(echo "$file_diff" | grep -E '^\-[^-]' | grep -E '^[^\-\s]*\s+[\w]+\s*\(.*\)' | sort | uniq)
         local functions_refactored=$(echo "$file_diff" | grep -E '^\+[^+]' | grep -E '^[^\+\s]*\s+[\w]+\s*\(.*\)' | grep -E '^[^\+\s]*\s+[\w]+\s*\(.*\)' | sort | uniq)
 
+        file_summary+="**Changes:**\n$file_diff\n\n"
         if [ -n "$functions_added" ]; then
             file_summary+="**Functions Added:**\n$functions_added\n\n"
         fi
@@ -57,7 +59,6 @@ generate_summary() {
             file_summary+="**Functions Refactored:**\n$functions_refactored\n\n"
         fi
 
-        # Append the file summary to the overall summary
         summary+="$file_summary"
     done
 
@@ -90,20 +91,8 @@ for file in $CHANGED_FILES; do
 
     FILE_DIFF=$(git diff origin/main...HEAD -- "$file")
 
-    RESPONSE=$(curl -X POST https://api.openai.com/v1/completions \
-      -H "Authorization: Bearer $OPENAI_API_KEY" \
-      -H "Content-Type: application/json" \
-      -d '{
-        "model": "gpt-4",
-        "prompt": "Review the following code and provide detailed suggestions for improvement:\n\n'"$FILE_DIFF"'",
-        "max_tokens": 300,
-        "temperature": 0
-      }')
-
-    echo "OpenAI response:"
-    echo "$RESPONSE"
-
-    SUGGESTION=$(echo "$RESPONSE" | jq -r '.choices[0].text // "No suggestions available"')
+    # Generate review from OpenAI
+    SUGGESTION=$(generate_review "$FILE_DIFF")
 
     echo "Suggestion for $file:"
     echo "$SUGGESTION"
@@ -120,7 +109,7 @@ EOF
         echo "Posting review:"
         echo "$REVIEW_PAYLOAD"
 
-        RESPONSE=$(curl -X POST \
+        RESPONSE=$(curl -s -X POST \
           -H "Authorization: token $GITHUB_TOKEN" \
           -H "Content-Type: application/json" \
           -d "$REVIEW_PAYLOAD" \
@@ -141,7 +130,4 @@ SUMMARY=$(generate_summary "$CHANGED_FILES")
 
 # Post final review based on success flag
 if [ "$success" = true ]; then
-    post_pr_comment "The PR has been reviewed and is ready to merge.\n\n$SUMMARY"
-else
-    post_pr_comment "The PR has been reviewed but contains issues. Please check the review comments.\n\n$SUMMARY"
-fi
+    post_pr_comment "The PR has been reviewed and is ready to merge
