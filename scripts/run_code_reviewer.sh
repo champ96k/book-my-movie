@@ -9,6 +9,27 @@ GITHUB_TOKEN="$GITHUB_TOKEN"
 GITHUB_REPO="$GITHUB_REPO"
 PR_NUMBER="$PR_NUMBER"
 
+# Function to post a comment to the PR
+post_pr_comment() {
+    local message=$1
+    curl -X POST \
+      -H "Authorization: token $GITHUB_TOKEN" \
+      -H "Content-Type: application/json" \
+      -d "{\"body\": \"$message\"}" \
+      "https://api.github.com/repos/$GITHUB_REPO/issues/$PR_NUMBER/comments"
+}
+
+# Function to post a review to the PR
+post_pr_review() {
+    local message=$1
+    local event=$2
+    curl -X POST \
+      -H "Authorization: token $GITHUB_TOKEN" \
+      -H "Content-Type: application/json" \
+      -d "{\"body\": \"$message\", \"event\": \"$event\"}" \
+      "https://api.github.com/repos/$GITHUB_REPO/pulls/$PR_NUMBER/reviews"
+}
+
 echo "Using GitHub repo: $GITHUB_REPO"
 echo "Using PR number: $PR_NUMBER"
 
@@ -23,6 +44,9 @@ CHANGED_FILES=$(git diff --name-only origin/main)
 
 echo "Changed files:"
 echo "$CHANGED_FILES"
+
+# Flag for successful review
+success=true
 
 for file in $CHANGED_FILES; do
     echo "Reviewing $file"
@@ -59,12 +83,25 @@ EOF
         echo "Posting review:"
         echo "$REVIEW_PAYLOAD"
 
-        curl -X POST \
+        RESPONSE=$(curl -X POST \
           -H "Authorization: token $GITHUB_TOKEN" \
           -H "Content-Type: application/json" \
           -d "$REVIEW_PAYLOAD" \
-          "https://api.github.com/repos/$GITHUB_REPO/pulls/$PR_NUMBER/reviews"
+          "https://api.github.com/repos/$GITHUB_REPO/pulls/$PR_NUMBER/reviews")
+
+        # Check if response indicates an error
+        if echo "$RESPONSE" | grep -q "error"; then
+            echo "Error posting review for $file: $RESPONSE"
+            success=false
+        fi
     else
         echo "No suggestion provided for $file."
     fi
 done
+
+# Post final review based on success flag
+if [ "$success" = true ]; then
+    post_pr_comment "The PR has been reviewed and is ready to merge."
+else
+    post_pr_comment "The PR has been reviewed but contains issues. Please check the review comments."
+fi
